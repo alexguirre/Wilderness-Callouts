@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WildernessCallouts", "src\WildernessCallouts.csproj", "{8CBC3925-CA42-47C9-8E18-FE94CB5AB9C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CBC3925-CA42-47C9-8E18-FE94CB5AB9C0}.Debug|x64.ActiveCfg = Debug|x64
+		{8CBC3925-CA42-47C9-8E18-FE94CB5AB9C0}.Debug|x64.Build.0 = Debug|x64
+		{8CBC3925-CA42-47C9-8E18-FE94CB5AB9C0}.Release|x64.ActiveCfg = Release|x64
+		{8CBC3925-CA42-47C9-8E18-FE94CB5AB9C0}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A596EC43-02B8-4DA2-9452-9FACD222F24C}
+	EndGlobalSection
+EndGlobal
