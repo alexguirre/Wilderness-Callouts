@@ -45,12 +45,12 @@
 
             Helicopter = new Vehicle(Settings.AirAmbulance.HeliModel, position, MathHelper.GetRandomSingle(0.0f, 360.0f));
             Helicopter.SetLivery(Settings.AirAmbulance.HeliLiveryIndex);
-            NativeFunction.CallByName<uint>("SET_HELI_BLADES_FULL_SPEED", Helicopter);
+            NativeFunction.Natives.SET_HELI_BLADES_FULL_SPEED(Helicopter);
 
             Pilot = new Ped(Settings.AirAmbulance.PilotModels.GetRandomElement(), Vector3.Zero, 0.0f);
             Pilot.BlockPermanentEvents = true;
-            NativeFunction.CallByName<uint>("SET_PED_FLEE_ATTRIBUTES", Pilot, 0, 0);
-            NativeFunction.CallByName<uint>("SET_PED_COMBAT_ATTRIBUTES", Pilot, 17, 1);
+            NativeFunction.Natives.SET_PED_FLEE_ATTRIBUTES(Pilot, 0, 0);
+            NativeFunction.Natives.SET_PED_COMBAT_ATTRIBUTES(Pilot, 17, 1);
             Pilot.WarpIntoVehicle(Helicopter, -1);
 
             Paramedic1 = new Ped(Settings.AirAmbulance.ParamedicModels.GetRandomElement(), Vector3.Zero, 0.0f);
@@ -85,7 +85,7 @@
 
                 GameFiber.Sleep(100);
 
-                NativeFunction.CallByName<uint>("TASK_HELI_MISSION", Pilot, Helicopter, 0, 0, posToFly.X, posToFly.Y, posToFly.Z, 6, 40.0f, 1.0f, 36.0f, 15, 15, -1.0f, 1);
+                NativeFunction.Natives.TASK_HELI_MISSION(Pilot, Helicopter, 0, 0, posToFly.X, posToFly.Y, posToFly.Z, 6, 40.0f, 1.0f, 36.0f, 15, 15, -1.0f, 1);
 
                 while (true)
                 {

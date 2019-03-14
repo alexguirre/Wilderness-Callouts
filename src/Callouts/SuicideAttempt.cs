@@ -639,7 +639,7 @@
             /*POLICE SERGEANT*/
             PoliceSergeantPed = new Ped(GetPedModelForPosition(PoliceSergeantPedSpawnPosition.Position), PoliceSergeantPedSpawnPosition.Position, PoliceSergeantPedSpawnPosition.Heading);
             if (!PoliceSergeantPed.Exists()) return false;
-            NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", PoliceSergeantPed, 0, 0, 0, 0);
+            NativeFunction.Natives.SET_PED_PROP_INDEX(PoliceSergeantPed, 0, 0, 0, 0);
             PoliceSergeantPed.IsInvincible = true;
             PoliceSergeantPed.BlockPermanentEvents = true;
             PoliceSergeantPed.RelationshipGroup = "COP";
@@ -667,7 +667,7 @@
             {
                 Rage.Object o = new Rage.Object(BarrierModel, sp.Position, sp.Heading);
                 if (!o.Exists()) return false;
-                NativeFunction.CallByName<uint>("SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN", o, true);
+                NativeFunction.Natives.SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN(o, true);
                 PoliceBarriers.Add(o);
             }
 

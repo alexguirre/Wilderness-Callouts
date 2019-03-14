@@ -196,20 +196,17 @@
         /// <param name="scale">Particle scale</param>
         public static void StartParticleFxNonLoopedOnEntity(string ptfxAsset, string effectName, Entity entity, Vector3 offset, Rotator rotation, float scale)
         {
-            ulong HasNamedPtfxAssetLoadedHash = 0x8702416e512ec454;
-            ulong SetPtfxAssetNextCall = 0x6c38af3693a69a91;
-            ulong RequestNamedPtfxAsset = 0xb80d8756b4668ab6;
 
-            NativeFunction.CallByHash<uint>(RequestNamedPtfxAsset, ptfxAsset);
-            while (!NativeFunction.CallByHash<bool>(HasNamedPtfxAssetLoadedHash, ptfxAsset))
+            NativeFunction.Natives.xb80d8756b4668ab6(ptfxAsset); //RequestNamedPtfxAsset
+            while (!NativeFunction.Natives.x8702416e512ec454<bool>(ptfxAsset)) //HasNamedPtfxAssetLoaded
             {
                 GameFiber.Sleep(25);
-                NativeFunction.CallByHash<uint>(RequestNamedPtfxAsset, ptfxAsset);
+                NativeFunction.Natives.xb80d8756b4668ab6(ptfxAsset); //RequestNamedPtfxAsset
                 GameFiber.Yield();
             }
 
-            NativeFunction.CallByHash<uint>(SetPtfxAssetNextCall, ptfxAsset);
-            NativeFunction.CallByName<uint>("START_PARTICLE_FX_NON_LOOPED_ON_ENTITY", effectName, entity, offset.X, offset.Y, offset.Z, rotation.Pitch, rotation.Roll, rotation.Yaw, scale, false, false, false);
+            NativeFunction.Natives.x6c38af3693a69a91(ptfxAsset); //SetPtfxAssetNextCall
+            NativeFunction.Natives.START_PARTICLE_FX_NON_LOOPED_ON_ENTITY(effectName, entity, offset.X, offset.Y, offset.Z, rotation.Pitch, rotation.Roll, rotation.Yaw, scale, false, false, false);
         }
 
 
@@ -236,7 +233,7 @@
         /// <param name="toggle">Toggle the night vision</param>
         public static void SetNightVision(bool toggle)
         {
-            NativeFunction.CallByName<uint>("SET_NIGHTVISION", toggle);
+            NativeFunction.Natives.SET_NIGHTVISION(toggle);
         }
 
         /// <summary>
@@ -245,7 +242,7 @@
         /// <param name="toggle">Toggle the thermal vision</param>
         public static void SetThermalVision(bool toggle)
         {
-            NativeFunction.CallByName<uint>("SET_SEETHROUGH", toggle);
+            NativeFunction.Natives.SET_SEETHROUGH(toggle);
         }
 
         /// <summary>
@@ -254,8 +251,7 @@
         /// <returns>a value indicating wheteher the night vision is active</returns>
         public static bool IsNightVisionActive()
         {
-            const ulong IsNightVisionActiveHash = 0x2202a3f42c8e5f79;
-            return NativeFunction.CallByHash<bool>(IsNightVisionActiveHash);
+            return NativeFunction.Natives.x2202a3f42c8e5f79<bool>(); //IsNightVisionActive
         }
 
         /// <summary>
@@ -264,29 +260,44 @@
         /// <returns>a value indicating wheteher the thermal vision is active</returns>
         public static bool IsThermalVisionActive()
         {
-            const ulong IsSeethroughActiveHash = 0x44b80abab9d80bd3;
-            return NativeFunction.CallByHash<bool>(IsSeethroughActiveHash);
+            return NativeFunction.Natives.x44b80abab9d80bd3<bool>(); //IsSeeThroughActive ??
         }
 
         public static void DisEnableGameControls(bool enable, params GameControl[] controls)
         {
-            string thehash = enable ? "ENABLE_CONTROL_ACTION" : "DISABLE_CONTROL_ACTION";
             foreach (var con in controls)
             {
-                NativeFunction.CallByName<uint>(thehash, 0, (int)con);
-                NativeFunction.CallByName<uint>(thehash, 1, (int)con);
-                NativeFunction.CallByName<uint>(thehash, 2, (int)con);
+                if (enable)
+                {
+                    NativeFunction.Natives.ENABLE_CONTROL_ACTION(0, (int)con);
+                    NativeFunction.Natives.ENABLE_CONTROL_ACTION(1, (int)con);
+                    NativeFunction.Natives.ENABLE_CONTROL_ACTION(2, (int)con);
+                }
+                else
+                {
+                    NativeFunction.Natives.DISABLE_CONTROL_ACTION(0, (int)con);
+                    NativeFunction.Natives.DISABLE_CONTROL_ACTION(1, (int)con);
+                    NativeFunction.Natives.DISABLE_CONTROL_ACTION(2, (int)con);
+                }
             }
         }
 
         public static void DisEnableAllGameControls(bool enable)
         {
-            string thehash = enable ? "ENABLE_CONTROL_ACTION" : "DISABLE_CONTROL_ACTION";
             foreach (var con in Enum.GetValues(typeof(GameControl)))
             {
-                NativeFunction.CallByName<uint>(thehash, 0, (int)con);
-                NativeFunction.CallByName<uint>(thehash, 1, (int)con);
-                NativeFunction.CallByName<uint>(thehash, 2, (int)con);
+                if (enable)
+                {
+                    NativeFunction.Natives.ENABLE_CONTROL_ACTION(0, (int)con);
+                    NativeFunction.Natives.ENABLE_CONTROL_ACTION(1, (int)con);
+                    NativeFunction.Natives.ENABLE_CONTROL_ACTION(2, (int)con);
+                }
+                else
+                {
+                    NativeFunction.Natives.DISABLE_CONTROL_ACTION(0, (int)con);
+                    NativeFunction.Natives.DISABLE_CONTROL_ACTION(1, (int)con);
+                    NativeFunction.Natives.DISABLE_CONTROL_ACTION(2, (int)con);
+                }
             }
             //Controls we want
             // -Frontend
@@ -339,23 +350,23 @@
 
             foreach (var control in list)
             {
-                NativeFunction.CallByName<uint>("ENABLE_CONTROL_ACTION", 0, (int)control);
+                NativeFunction.Natives.ENABLE_CONTROL_ACTION(0, (int)control);
             }
         }
 
         public static void DrawScaleformMovieFullscreen(RAGENativeUI.Elements.Scaleform scaleform, System.Drawing.Color color, int unk1 = 1)
         {
-            NativeFunction.CallByName<uint>("DRAW_SCALEFORM_MOVIE_FULLSCREEN", scaleform.Handle, (int)color.R, (int)color.G, (int)color.B, (int)color.A, unk1);
+            NativeFunction.Natives.DRAW_SCALEFORM_MOVIE_FULLSCREEN(scaleform.Handle, (int)color.R, (int)color.G, (int)color.B, (int)color.A, unk1);
         }
 
         public static bool IsUsingController()
         {
-            return !NativeFunction.CallByHash<bool>(0xa571d46727e2b718, 2);
+            return !NativeFunction.Natives.xa571d46727e2b718<bool>(0, 2);
         }
 
         public static void DrawLine(Vector3 start, Vector3 end, Color color)
         {
-            NativeFunction.CallByName<uint>("DRAW_LINE", start.X, start.Y, start.Z, end.X, end.Y, end.Z, (int)color.R, (int)color.G, (int)color.B, (int)color.A);
+            NativeFunction.Natives.DRAW_LINE(start.X, start.Y, start.Z, end.X, end.Y, end.Z, (int)color.R, (int)color.G, (int)color.B, (int)color.A);
         }
 
         public static void DrawMarker(EMarkerType type, Vector3 pos, Vector3 dir, Vector3 rot, Vector3 scale, Color color)
@@ -375,7 +386,7 @@
                     name = textureName;
                 }
             }
-            NativeFunction.CallByName<uint>("DRAW_MARKER", (int)type, pos.X, pos.Y, pos.Z, dir.X, dir.Y, dir.Z, rot.X, rot.Y, rot.Z, scale.X, scale.Y, scale.Z, (int)color.R, (int)color.G, (int)color.B, (int)color.A, bobUpAndDown, faceCamY, unk2, rotateY, dict, name, drawOnEnt);
+            NativeFunction.Natives.DRAW_MARKER((int)type, pos.X, pos.Y, pos.Z, dir.X, dir.Y, dir.Z, rot.X, rot.Y, rot.Z, scale.X, scale.Y, scale.Z, (int)color.R, (int)color.G, (int)color.B, (int)color.A, bobUpAndDown, faceCamY, unk2, rotateY, dict, name, drawOnEnt);
         }
 
         public static Entity RaycastEntity2(Vector3 pos, Vector3 direction, float distance, params Entity[] toIgnore)
@@ -398,12 +409,12 @@
 
         public static Vector3 GetGameplayCameraPosition()
         {
-            return NativeFunction.CallByName<Vector3>("GET_GAMEPLAY_CAM_COORD");
+            return NativeFunction.Natives.GET_GAMEPLAY_CAM_COORD<Vector3>();
         }
 
         public static Vector3 GetGameplayCameraRotation()
         {
-            return NativeFunction.CallByName<Vector3>("GET_GAMEPLAY_CAM_ROT", 2);
+            return NativeFunction.Natives.GET_GAMEPLAY_CAM_ROT<Vector3>(2);
         }
 
         //public static Texture GetTextureFromEmbeddedResource(string resourceName)
@@ -426,12 +437,12 @@
 #if DEBUG
         public static string GetUserInput(EWindowTitle windowTitle, string defaultText, int maxLength)
         {
-            NativeFunction.CallByName<uint>("DISPLAY_ONSCREEN_KEYBOARD", true, windowTitle.ToString(), "", defaultText, "", "", "", maxLength + 1);
+            NativeFunction.Natives.DISPLAY_ONSCREEN_KEYBOARD(true, windowTitle.ToString(), "", defaultText, "", "", "", maxLength + 1);
 
-            while (NativeFunction.CallByName<int>("UPDATE_ONSCREEN_KEYBOARD") == 0)
+            while (NativeFunction.Natives.UPDATE_ONSCREEN_KEYBOARD<int>() == 0)
                 GameFiber.Yield();
 
-            return (string)NativeFunction.CallByName("GET_ONSCREEN_KEYBOARD_RESULT", typeof(string));
+            return (string)NativeFunction.Natives.GET_ONSCREEN_KEYBOARD_RESULT<string>();
         }
 #endif
     }

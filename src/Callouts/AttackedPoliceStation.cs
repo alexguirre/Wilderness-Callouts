@@ -57,7 +57,7 @@
                     {
                         foreach (Ped swat in spawnUsed.Swats)
                         {
-                            NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_COORD", swat, this.CalloutPosition.X, this.CalloutPosition.Y, this.CalloutPosition.Z, -1, false, false);
+                            NativeFunction.Natives.TASK_AIM_GUN_AT_COORD(swat, this.CalloutPosition.X, this.CalloutPosition.Y, this.CalloutPosition.Z, -1, false, false);
                         }
                         foreach (Ped ped in World.GetAllPeds())
                         {
@@ -89,7 +89,7 @@
                 {
                     if (!spawnUsed.RetainedPoliceAnimTasks[i].IsPlaying || !spawnUsed.RetainedPoliceAnimTasks[i].IsActive)
                     {
-                        NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", spawnUsed.RetainedPoliceAnimTasks[i].Ped, spawnUsed.SwatVehicles.GetRandomElement(), -1, 7.5f, 2.0f, 0, 0);
+                        NativeFunction.Natives.TASK_GO_TO_ENTITY(spawnUsed.RetainedPoliceAnimTasks[i].Ped, spawnUsed.SwatVehicles.GetRandomElement(), -1, 7.5f, 2.0f, 0, 0);
                         spawnUsed.RetainedPoliceAnimTasks.RemoveAt(i);
                     }
                 }
@@ -304,7 +304,7 @@
                 //ped.GiveNewWeapon(weaponHash, 2000, true);
                 GiveSwatWeapon(ped);
                 if (Globals.Random.Next(3) <= 1)
-                    NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                    NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
                 ped.RelationshipGroup =  SwatsRelationshipGroup;
                 //ped.VisionRange = 13.75f;
                 //ped.HearingRange = 13.75f;
@@ -336,9 +336,9 @@
                 if (ped.Model == new Model("s_m_y_cop_01") || ped.Model == new Model("s_m_y_sheriff_01"))
                 {
                     if (Globals.Random.Next(3) <= 1)
-                        NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, Globals.Random.Next(2), 0, 2);
+                        NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, Globals.Random.Next(2), 0, 2);
 
-                    NativeFunction.CallByName<uint>("SET_PED_COMPONENT_VARIATION", ped, 9, 2, 0, 2);
+                    NativeFunction.Natives.SET_PED_COMPONENT_VARIATION(ped, 9, 2, 0, 2);
                 }
                 Tuple<AnimationDictionary, string> anim = GetPoliceWaitingAnimation();
                 ped.Tasks.PlayAnimation(anim.Item1, anim.Item2, 1.0f, AnimationFlags.Loop);
@@ -357,7 +357,7 @@
             {
                 Rage.Object obj = new Rage.Object(BarrierModel, spawnPoint.Position, spawnPoint.Heading);
                 if (!obj.Exists()) return false;
-                NativeFunction.CallByName<uint>("SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN", obj, true);
+                NativeFunction.Natives.SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN(obj, true);
                 PoliceBarriers.Add(obj);
             }
 
@@ -1349,7 +1349,7 @@
             //{
             //    if (Globals.Random.Next(4) <= 1) ped.GiveWeaponComponent(weapon, component);
             //}
-            if (Globals.Random.Next(3) == 1) NativeFunction.CallByName<uint>("SET_PED_WEAPON_TINT_INDEX", ped, Game.GetHashKey(weapon), Globals.Random.Next(NativeFunction.CallByName<int>("GET_WEAPON_TINT_COUNT", Game.GetHashKey(weapon))));
+            if (Globals.Random.Next(3) == 1) NativeFunction.Natives.SET_PED_WEAPON_TINT_INDEX(ped, Game.GetHashKey(weapon), Globals.Random.Next(NativeFunction.Natives.GET_WEAPON_TINT_COUNT(Game.GetHashKey(weapon))));
             return w;
         }
 

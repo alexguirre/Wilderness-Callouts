@@ -57,8 +57,8 @@ namespace WildernessCallouts.Peds
             Game.SetRelationshipBetweenRelationshipGroups("VET", "FIREMAN", Relationship.Companion);
             Game.SetRelationshipBetweenRelationshipGroups("VET", "MEDIC", Relationship.Companion);
 
-            NativeFunction.CallByName<uint>("SET_DRIVER_ABILITY", VetPed, 100.0f);
-            NativeFunction.CallByName<uint>("SET_DRIVER_AGGRESSIVENESS", VetPed, 0f);
+            NativeFunction.Natives.SET_DRIVER_ABILITY(VetPed, 100.0f);
+            NativeFunction.Natives.SET_DRIVER_AGGRESSIVENESS(VetPed, 0f);
 
             VetPed.WarpIntoVehicle(Vehicle, -1);      // Teleports the vet inside his vehicle
         }
@@ -167,7 +167,7 @@ namespace WildernessCallouts.Peds
 
             GameFiber.Wait(185);
 
-            NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", VetPed, Vehicle, -1, 5.0f, 1.0f, 0, 0);
+            NativeFunction.Natives.TASK_GO_TO_ENTITY(VetPed, Vehicle, -1, 5.0f, 1.0f, 0, 0);
             while (Vector3.Distance(VetPed.Position, Vehicle.Position) > 6.0f)
                 GameFiber.Yield();
 

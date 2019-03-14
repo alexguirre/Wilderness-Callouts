@@ -16,9 +16,8 @@
         /// <returns>the position zone </returns>
         public static EWorldArea GetArea(Vector3 position)
         {
-            ulong GetMapZoneAtCoordsHash = 0x7ee64d51e8498728;
 
-            EWorldArea zone = (EWorldArea)NativeFunction.CallByHash<int>(GetMapZoneAtCoordsHash, position.X, position.Y, position.Z);
+            EWorldArea zone = (EWorldArea)NativeFunction.Natives.x7ee64d51e8498728<int>(position.X, position.Y, position.Z); //GetMapZoneAtCoords
             return zone;
         }
 
@@ -30,7 +29,7 @@
         /// <returns>the name of the zone</returns>
         public static EWorldZone GetZone(Vector3 Position)
         {
-            string zoneId = (string)NativeFunction.CallByName("GET_NAME_OF_ZONE", typeof(string),Position.X, Position.Y, Position.Z);
+            string zoneId = (string)NativeFunction.Natives.GET_NAME_OF_ZONE<string>(Position.X, Position.Y, Position.Z);
 
             EWorldZone result;
             if (Enum.TryParse<EWorldZone>(zoneId, true, out result))

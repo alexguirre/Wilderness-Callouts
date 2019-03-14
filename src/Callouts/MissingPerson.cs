@@ -95,7 +95,7 @@
             if (pedActionRnd <= 1)
             {
                 missingPed.BlockPermanentEvents = true;
-                NativeFunction.CallByName<uint>("TASK_WRITHE", missingPed, Game.LocalPlayer.Character, -1, false);
+                NativeFunction.Natives.TASK_WRITHE(missingPed, Game.LocalPlayer.Character, -1, false);
                 scenario = EMissingPersonScenario.Dead;
                 if (Globals.Random.Next(5) <= 3) SetPedBlood(missingPed);
             }

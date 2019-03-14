@@ -195,7 +195,7 @@
                     ped.Inventory.GiveNewWeapon(weaponAssets.GetRandomElement(true), 9999, true);
 
                     Vector3 posToShoot = ped.Position + (ped.ForwardVector * MathHelper.GetRandomSingle(1.5f, 8.0f)) + (ped.UpVector * MathHelper.GetRandomSingle(8.0f, 20.0f)) + (ped.RightVector * MathHelper.GetRandomSingle(-15.0f, 15.0f));
-                    NativeFunction.CallByName<uint>("TASK_SHOOT_AT_COORD", ped, posToShoot.X, posToShoot.Y, posToShoot.Z, -1, (uint)Rage.FiringPattern.BurstFire);
+                    NativeFunction.Natives.TASK_SHOOT_AT_COORD(ped, posToShoot.X, posToShoot.Y, posToShoot.Z, -1, (uint)Rage.FiringPattern.BurstFire);
                 }
                 else if (scenario == 2)     // PROTEST
                 {

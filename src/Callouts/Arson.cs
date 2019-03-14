@@ -138,7 +138,7 @@
                         drivingStyle = (VehicleDrivingFlags)20;
                         break;
                 }
-                NativeFunction.CallByName<uint>("SET_DRIVER_ABILITY", suspect, MathHelper.GetRandomSingle(0.0f, 100.0f));
+                NativeFunction.Natives.SET_DRIVER_ABILITY(suspect, MathHelper.GetRandomSingle(0.0f, 100.0f));
                 if (possibleVeh.Model.IsBike || possibleVeh.Model.IsBicycle) suspect.GiveHelmet(false, HelmetTypes.RegularMotorcycleHelmet, -1);
                 suspect.Tasks.CruiseWithVehicle(possibleVeh, 200.0f, drivingStyle);
             }
@@ -219,7 +219,7 @@
                         {
                             Vector3 pos = arsonSpawnUsed.Fires[Globals.Random.Next(arsonSpawnUsed.Fires.Count)].Position.AroundPosition(5.0f).ToGroundUsingRaycasting(p);
                             p.Tasks.FollowNavigationMeshToPosition(pos, pos.GetHeadingTowards(arsonSpawnUsed.FirePosition), 20.0f).WaitForCompletion();
-                            NativeFunction.CallByName<uint>("TASK_SHOOT_AT_COORD", p, pos.X, pos.Y, pos.Z, -1, (uint)Rage.FiringPattern.FullAutomatic);
+                            NativeFunction.Natives.TASK_SHOOT_AT_COORD(p, pos.X, pos.Y, pos.Z, -1, (uint)Rage.FiringPattern.FullAutomatic);
                         });
                         GameFiber.Sleep(500);
                     }
@@ -298,7 +298,7 @@
                         if (Globals.Random.Next(4) <= 2 && weaponUsed == "WEAPON_MOLOTOV")
                         {
                             suspect.Tasks.AchieveHeading(suspect.GetHeadingTowards(Game.LocalPlayer.Character)).WaitForCompletion(1500);
-                            NativeFunction.CallByName<uint>("TASK_THROW_PROJECTILE", suspect, Game.LocalPlayer.Character.Position.X, Game.LocalPlayer.Character.Position.Y, Game.LocalPlayer.Character.Position.Z);
+                            NativeFunction.Natives.TASK_THROW_PROJECTILE(suspect, Game.LocalPlayer.Character.Position.X, Game.LocalPlayer.Character.Position.Y, Game.LocalPlayer.Character.Position.Z);
                         }
                         else suspect.ReactAndFlee(Game.LocalPlayer.Character);
                     }
@@ -1840,14 +1840,14 @@
                 {
                     if (ped == Firefighters[0])
                     {
-                        NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 2, 2);
+                        NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 2, 2);
                         ped.IsInvincible = true;
                         ped.BlockPermanentEvents = true;
                     }
                     else
                     {
-                        NativeFunction.CallByName<uint>("SET_PED_COMPONENT_VARIATION", ped, 8, 2, 0, 2);
-                        NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                        NativeFunction.Natives.SET_PED_COMPONENT_VARIATION(ped, 8, 2, 0, 2);
+                        NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
                     }
                 }
             }

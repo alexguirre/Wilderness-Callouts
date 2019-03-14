@@ -28,13 +28,7 @@
 
     internal static class ControlsExtensions
     {
-        public static bool IsUsingController
-        {
-            get
-            {
-                return !NativeFunction.CallByHash<bool>(0xa571d46727e2b718, 2);
-            }
-        }
+        public static bool IsUsingController => !NativeFunction.Natives.xa571d46727e2b718<bool>(2);
 
         public static bool IsJustPressed(this Controls control)
         {
@@ -159,7 +153,10 @@
         public static string ToUserFriendlyName(this Controls control)
         {
             string name = "";
-            if (Settings.ControlsKeys.ModifierKey != System.Windows.Forms.Keys.None && !IsUsingController)
+            if (Settings.ControlsKeys.ModifierKey != System.Windows.Forms.Keys.None)/* && !IsUsingController) */
+                                                                                    /* this seems to cause the help to flash between
+                                                                                     suggesting the modifier key and not in a way that
+                                                                                     makes it difficult to press the key combo */
             {
                 name = Settings.ControlsKeys.ModifierKey.ToString() + " + ";
             }

@@ -163,7 +163,7 @@
                     GameFiber.Sleep(Globals.Random.Next(4250, 17500));
                     if (suspect.Exists() && suspect.IsAlive && !Functions.IsPedArrested(suspect) && !Functions.IsPedGettingArrested(suspect) && arePedsPlayingAnim)
                     {
-                        NativeFunction.CallByName<uint>("SET_PED_SHOOTS_AT_COORD", suspect, 0.0f, 0.0f, 0.0f, 0);
+                        NativeFunction.Natives.SET_PED_SHOOTS_AT_COORD(suspect, 0.0f, 0.0f, 0.0f, 0);
                         WildernessCallouts.Common.StartParticleFxNonLoopedOnEntity("scr_solomon3", "scr_trev4_747_blood_impact", hostage, new Vector3(0.0f, 0.0f, 0.6f), new Rotator(90.0f, 0.0f, 0.0f), 0.235f);
 
                         hostage.Kill();
@@ -200,7 +200,7 @@
                         GameFiber.StartNew(delegate
                         {
                             hostage.Tasks.PlayAnimation("dead@fall", "dead_land_up", -1, 2.28f, 1.0f, 0.0f, AnimationFlags.None).WaitForCompletion();
-                            NativeFunction.CallByName<uint>("SET_PED_TO_RAGDOLL", hostage, 3500, 5000, 0, true, true, false);
+                            NativeFunction.Natives.SET_PED_TO_RAGDOLL(hostage, 3500, 5000, 0, true, true, false);
                             GameFiber.Sleep(4000);
                             hostage.ReactAndFlee(suspect);
                         });
@@ -229,7 +229,7 @@
                     {
                         if (suspect.Exists() && suspect.IsAlive && !Functions.IsPedArrested(suspect) && !Functions.IsPedGettingArrested(suspect) && arePedsPlayingAnim)
                         {
-                            NativeFunction.CallByName<uint>("SET_PED_SHOOTS_AT_COORD", suspect, 0.0f, 0.0f, 0.0f, 0);
+                            NativeFunction.Natives.SET_PED_SHOOTS_AT_COORD(suspect, 0.0f, 0.0f, 0.0f, 0);
                             WildernessCallouts.Common.StartParticleFxNonLoopedOnEntity("scr_solomon3", "scr_trev4_747_blood_impact", hostage, new Vector3(0.0f, 0.0f, 0.6f), new Rotator(90.0f, 0.0f, 0.0f), 0.235f);
 
                             hostage.Kill();

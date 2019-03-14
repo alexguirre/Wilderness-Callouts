@@ -437,9 +437,9 @@
 
                 VictimPedClone = VictimPed.Clone(0.0f);
 
-                NativeFunction.CallByName<uint>("REVIVE_INJURED_PED", VictimPedClone);
-                NativeFunction.CallByName<uint>("SET_ENTITY_HEALTH", VictimPedClone, 200.0f);
-                NativeFunction.CallByName<uint>("RESURRECT_PED", VictimPedClone);
+                NativeFunction.Natives.REVIVE_INJURED_PED(VictimPedClone);
+                NativeFunction.Natives.SET_ENTITY_HEALTH(VictimPedClone, 200.0f);
+                NativeFunction.Natives.RESURRECT_PED(VictimPedClone);
                 VictimPedClone.Tasks.ClearImmediately();
 
                 VictimPedClone.Position = Scenario.VictimFootageSpawnPoint.Position;
@@ -462,9 +462,9 @@
                 FootageCamera.FOV -= 20;
                 FootageCamera.Position = CCTVObject.Position;
                 //footageCamera.PointAtEntity(victimPed, Vector3.Zero, true);
-                NativeFunction.CallByName<uint>("POINT_CAM_AT_COORD", FootageCamera, Scenario.VictimFootageSpawnPoint.Position.X, Scenario.VictimFootageSpawnPoint.Position.Y, Scenario.VictimFootageSpawnPoint.Position.Z);
-                NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", true);
-                NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.1f);
+                NativeFunction.Natives.POINT_CAM_AT_COORD(FootageCamera, Scenario.VictimFootageSpawnPoint.Position.X, Scenario.VictimFootageSpawnPoint.Position.Y, Scenario.VictimFootageSpawnPoint.Position.Z);
+                NativeFunction.Natives.SET_NOISEOVERIDE(true);
+                NativeFunction.Natives.SET_NOISINESSOVERIDE(0.1f);
 
                 VictimPedClone.Health = 170;
                 MurdererPedClone.IsInvincible = true;
@@ -481,7 +481,7 @@
                     {
                         GameFiber.Yield();
 
-                        NativeFunction.CallByName<uint>("HIDE_HUD_AND_RADAR_THIS_FRAME");
+                        NativeFunction.Natives.HIDE_HUD_AND_RADAR_THIS_FRAME();
                         new ResRectangle(new Point(0, 0), new Size(245, 195), Color.FromArgb(145, Color.Gray)).Draw();
                         new ResText("CCTV #" + cctvCameraNumber + "~n~" + DateTime.UtcNow.ToShortDateString() + "~n~" + DateTime.UtcNow.ToLongTimeString(), new Point(5, 5), 0.747f).Draw();
                     }
@@ -490,7 +490,7 @@
 
                 // footage
                 Task murdererMoveTask = MurdererPedClone.Tasks.GoToOffsetFromEntity(VictimPedClone, Scenario.MurderFootagePositionOffsetFromVictim, Scenario.MurderFootageAngleOffsetFromVictim, 0.5f);
-                NativeFunction.CallByName<uint>("SET_PED_STEALTH_MOVEMENT", MurdererPedClone, 1, 0);
+                NativeFunction.Natives.SET_PED_STEALTH_MOVEMENT(MurdererPedClone, 1, 0);
                 murdererMoveTask.WaitForCompletion();
                 MurdererPedClone.Inventory.GiveNewWeapon((WeaponHash)EWeaponHash.Heavy_Pistol, 999, true);
                 VictimPedClone.Tasks.Clear();
@@ -519,8 +519,8 @@
 
                 // clean up
                 Game.FadeScreenOut(1750, true);
-                NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", false);
-                NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.0f);
+                NativeFunction.Natives.SET_NOISEOVERIDE(false);
+                NativeFunction.Natives.SET_NOISINESSOVERIDE( 0.0f);
                 FootageCamera.Delete();
                 if (InvestigationHandlerInstance.IsCamLookingAtObject)
                     InvestigationHandlerInstance.Cam.Active = true;
@@ -641,13 +641,13 @@ It has been fired multiple times.");
                 if (!PistolObject.Exists())
                     return false;
                 PistolObject.Rotation = Scenario.PistolModelPositionRotation.Item3;
-                NativeFunction.CallByName<uint>("SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN", PistolObject, true);
+                NativeFunction.Natives.SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN(PistolObject, true);
                 Objects.Add(PistolObject);
 
                 VictimPed = new Ped(Scenario.VictimPedModel, Scenario.VictimSpawnPoint.Position, Scenario.VictimSpawnPoint.Heading);
                 if (!VictimPed.Exists())
                     return false;
-                NativeFunction.CallByName<uint>("TASK_WRITHE", VictimPed, Game.LocalPlayer.Character, -1, false);
+                NativeFunction.Natives.TASK_WRITHE(VictimPed, Game.LocalPlayer.Character, -1, false);
                 VictimPed.ApplyDamagePack(DamagePack.BigHitByVehicle, MathHelper.GetRandomSingle(1.0f, 100.0f), MathHelper.GetRandomSingle(1.0f, 150.0f));
                 VictimPed.Health = 0;
 
@@ -708,15 +708,15 @@ It has been fired multiple times.");
                         {
                             //void _START_SCREEN_EFFECT(char* effectName, int duration, BOOL looped)
                             //// 0x2206BF9A37B7F724 0x1D980479
-                            NativeFunction.CallByHash<uint>(0x2206bf9a37b7f724, SCREEN_EFFECT_IN_NAME, 0, true);
+                            NativeFunction.Natives.x2206bf9a37b7f724(SCREEN_EFFECT_IN_NAME, 0, true);
                         }
                         else if (value == false)
                         {
                             //void _STOP_SCREEN_EFFECT(char * effectName) 
                             //// 0x068E835A1D0DC0E3 0x06BB5CDA
-                            if (NativeFunction.CallByHash<bool>(0x36ad3e690da5aceb, SCREEN_EFFECT_IN_NAME))
-                                NativeFunction.CallByHash<uint>(0x068e835a1d0dc0e3, SCREEN_EFFECT_IN_NAME);
-                            NativeFunction.CallByHash<uint>(0x2206bf9a37b7f724, SCREEN_EFFECT_OUT_NAME, 1000, false);
+                            if (NativeFunction.Natives.x36ad3e690da5aceb<bool>(SCREEN_EFFECT_IN_NAME))
+                                NativeFunction.Natives.x068e835a1d0dc0e3(SCREEN_EFFECT_IN_NAME);
+                            NativeFunction.Natives.x2206bf9a37b7f724(SCREEN_EFFECT_OUT_NAME, 1000, false);
 
                             if (IsCamLookingAtObject)
                                 StopLookAt();
@@ -790,8 +790,8 @@ It has been fired multiple times.");
 
                         if (Game.IsScreenFadedIn)
                         {
-                            if (!NativeFunction.CallByHash<bool>(0x36ad3e690da5aceb, SCREEN_EFFECT_IN_NAME))
-                                NativeFunction.CallByHash<uint>(0x2206bf9a37b7f724, SCREEN_EFFECT_IN_NAME, 0, true);
+                            if (!NativeFunction.Natives.x36ad3e690da5aceb<bool>(SCREEN_EFFECT_IN_NAME))
+                                NativeFunction.Natives.x2206bf9a37b7f724(SCREEN_EFFECT_IN_NAME, 0, true);
                         }
                     }
                     else
@@ -799,10 +799,10 @@ It has been fired multiple times.");
                         if (Game.IsScreenFadingOut)
                         {
 
-                            if (NativeFunction.CallByHash<bool>(0x36ad3e690da5aceb, SCREEN_EFFECT_IN_NAME))
+                            if (NativeFunction.Natives.x36ad3e690da5aceb<bool>(SCREEN_EFFECT_IN_NAME))
                             {
-                                NativeFunction.CallByHash<uint>(0x068e835a1d0dc0e3, SCREEN_EFFECT_IN_NAME);
-                                NativeFunction.CallByHash<uint>(0x2206bf9a37b7f724, SCREEN_EFFECT_OUT_NAME, 1000, false);
+                                NativeFunction.Natives.x068e835a1d0dc0e3(SCREEN_EFFECT_IN_NAME);
+                                NativeFunction.Natives.x2206bf9a37b7f724(SCREEN_EFFECT_OUT_NAME, 1000, false);
                             }
                         }
                     }
@@ -813,8 +813,8 @@ It has been fired multiple times.");
                     CurrentEntityLookingAt = entToLookAt;
                     Cam.AttachToEntity(Game.LocalPlayer.Character, camOffsetFromPlayer, true);
                     Cam.PointAtEntity(CurrentEntityLookingAt, Vector3.Zero, false);
-                    Cam.FOV = NativeFunction.CallByName<float>("GET_GAMEPLAY_CAM_FOV");
-                    InterpolationTempCam.FOV = NativeFunction.CallByName<float>("GET_GAMEPLAY_CAM_FOV");
+                    Cam.FOV = NativeFunction.Natives.GET_GAMEPLAY_CAM_FOV<float>();
+                    InterpolationTempCam.FOV = NativeFunction.Natives.GET_GAMEPLAY_CAM_FOV<float>();
                     InterpolationTempCam.Position = WildernessCallouts.Common.GetGameplayCameraPosition();
                     Vector3 r = WildernessCallouts.Common.GetGameplayCameraRotation();
                     InterpolationTempCam.Rotation = new Rotator(r.X, r.Y, r.Z);
@@ -847,8 +847,8 @@ It has been fired multiple times.");
                 {
                     Cam.AttachToEntity(Game.LocalPlayer.Character, camOffsetFromPlayer, true);
                     Cam.PointAtEntity(CurrentEntityLookingAt, Vector3.Zero, false);
-                    Cam.FOV = NativeFunction.CallByName<float>("GET_GAMEPLAY_CAM_FOV");
-                    InterpolationTempCam.FOV = NativeFunction.CallByName<float>("GET_GAMEPLAY_CAM_FOV");
+                    Cam.FOV = NativeFunction.Natives.GET_GAMEPLAY_CAM_FOV<float>();
+                    InterpolationTempCam.FOV = NativeFunction.Natives.GET_GAMEPLAY_CAM_FOV<float>();
                     InterpolationTempCam.Position = WildernessCallouts.Common.GetGameplayCameraPosition();
                     Vector3 r = WildernessCallouts.Common.GetGameplayCameraRotation();
                     InterpolationTempCam.Rotation = new Rotator(r.X, r.Y, r.Z);
@@ -884,10 +884,10 @@ It has been fired multiple times.");
                     //// 0x36AD3E690DA5ACEB 0x089D5921
                     //void _STOP_SCREEN_EFFECT(char * effectName) 
                     //// 0x068E835A1D0DC0E3 0x06BB5CDA
-                    if (NativeFunction.CallByHash<bool>(0x36ad3e690da5aceb, SCREEN_EFFECT_IN_NAME))
-                        NativeFunction.CallByHash<uint>(0x068e835a1d0dc0e3, SCREEN_EFFECT_IN_NAME);
-                    if (NativeFunction.CallByHash<bool>(0x36ad3e690da5aceb, SCREEN_EFFECT_OUT_NAME))
-                        NativeFunction.CallByHash<uint>(0x068e835a1d0dc0e3, SCREEN_EFFECT_OUT_NAME);
+                    if (NativeFunction.Natives.x36ad3e690da5aceb<bool>(SCREEN_EFFECT_IN_NAME))
+                        NativeFunction.Natives.x068e835a1d0dc0e3(SCREEN_EFFECT_IN_NAME);
+                    if (NativeFunction.Natives.x36ad3e690da5aceb<bool>(SCREEN_EFFECT_OUT_NAME))
+                        NativeFunction.Natives.x068e835a1d0dc0e3(SCREEN_EFFECT_OUT_NAME);
 
                     if (Cam.Exists())
                     {
@@ -1020,11 +1020,11 @@ It has been fired multiple times.");
                     {
                         descriptor = (murderPed) =>
                         {
-                            int headDrawVar = NativeFunction.CallByName<int>("GET_PED_DRAWABLE_VARIATION", murderPed, 0);
+                            int headDrawVar = NativeFunction.Natives.GET_PED_DRAWABLE_VARIATION<int>(murderPed, 0);
                             string race = headDrawVar == 0 ? "white" : "black";
 
-                            int upperPartDrawVar = NativeFunction.CallByName<int>("GET_PED_DRAWABLE_VARIATION", murderPed, 3); // 0 t-shit   1 jacket
-                            int upperPartTextureVar = NativeFunction.CallByName<int>("GET_PED_TEXTURE_VARIATION", murderPed, 3);
+                            int upperPartDrawVar = NativeFunction.Natives.GET_PED_DRAWABLE_VARIATION<int>(murderPed, 3); // 0 t-shit   1 jacket
+                            int upperPartTextureVar = NativeFunction.Natives.GET_PED_TEXTURE_VARIATION<int>(murderPed, 3);
 
                             string upperDesc = "";
 
@@ -1070,7 +1070,7 @@ It has been fired multiple times.");
                     {
                         descriptor = (murderPed) =>
                         {
-                            int headDrawVar = NativeFunction.CallByName<int>("GET_PED_DRAWABLE_VARIATION", murderPed, 0);
+                            int headDrawVar = NativeFunction.Natives.GET_PED_DRAWABLE_VARIATION<int>(murderPed, 0);
                             string race = headDrawVar == 0 ? "white" : "black";
                             return "Suspect is a " + race + " male and wears a Post OP uniform.";
                         };

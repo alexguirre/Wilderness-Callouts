@@ -78,7 +78,7 @@
                     while (this.Hunter.Exists() && this.Hunter.IsAlive && this.Animal.Exists() && this.Animal.IsAlive)
                         GameFiber.Yield();
 
-                    if (this.Hunter.Exists() && this.Animal.Exists()) NativeFunction.CallByName<uint>("TASK_SHOOT_AT_ENTITY", this.Hunter, this.Animal, 6000, (uint)Rage.FiringPattern.BurstFire);
+                    if (this.Hunter.Exists() && this.Animal.Exists()) NativeFunction.Natives.TASK_SHOOT_AT_ENTITY(this.Hunter, this.Animal, 6000, (uint)Rage.FiringPattern.BurstFire);
 
                     GameFiber.Sleep(5000);
 

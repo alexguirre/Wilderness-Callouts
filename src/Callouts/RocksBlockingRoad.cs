@@ -48,7 +48,7 @@
                 //Game.LogTrivial("1 : ~b~" + rock.Position.Z.ToString());
                 rock.Heading = MathHelper.GetRandomSingle(0.0f, 360.0f);
                 //rock.SetPositionZ(funct.GetGroundZForVector3(rock.Position) + 0.125f);
-                NativeFunction.CallByName<uint>("SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN", rock, true);
+                NativeFunction.Natives.SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN(rock, true);
                 rocksList.Add(rock);
             }
             foreach (Rage.Object rocks in rocksList)
