@@ -1,4 +1,7 @@
-﻿namespace WildernessCallouts.AmbientEvents
+﻿using System;
+using System.Threading;
+
+namespace WildernessCallouts.AmbientEvents
 {
     using Rage;
     using WildernessCallouts.Types;
@@ -72,17 +75,27 @@
 
         public static Vector3 GetSpawnPosition()
         {
-            Vector3 result = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.AroundPosition(200.0f));
-            int counter = 0;
-
-            while (result.DistanceTo(Game.LocalPlayer.Character.Position) < 62.5f || counter < 150)
+            try
             {
-                result = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.AroundPosition(200.0f));
-                counter++;
-                GameFiber.Yield();
-            }
+                Vector3 result = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.AroundPosition(200.0f));
+                int counter = 0;
 
-            return result;
+                while (result.DistanceTo(Game.LocalPlayer.Character.Position) < 62.5f || counter < 150)
+                {
+                    result = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.AroundPosition(200.0f));
+                    counter++;
+                    GameFiber.Yield();
+                }
+
+                return result;
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                Logger.LogExceptionDebug(typeof(EventPool).Name, e);
+                
+            }
+            return Vector3.Zero;
         }
     }
 }

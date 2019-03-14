@@ -1,4 +1,7 @@
-﻿namespace WildernessCallouts.AmbientEvents
+﻿using System;
+using System.Threading;
+
+namespace WildernessCallouts.AmbientEvents
 {
     using Rage;
     using Rage.Native;
@@ -100,8 +103,16 @@
 
         public override void Process()
         {
-            if (!this.Hunter.Exists() || this.Hunter.IsDead || this.Hunter.Position.DistanceTo(Game.LocalPlayer.Character.Position) > 400.0f) this.CleanUp(); 
-            base.Process();
+            try
+            {
+                if (!this.Hunter.Exists() || this.Hunter.IsDead || this.Hunter.Position.DistanceTo(Game.LocalPlayer.Character.Position) > 400.0f) this.CleanUp();
+                base.Process();
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                Logger.LogExceptionDebug(GetType().Name, e);
+            }
         }
 
         public override void CleanUp()

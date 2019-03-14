@@ -1,4 +1,7 @@
-﻿namespace WildernessCallouts.AmbientEvents
+﻿using System;
+using System.Threading;
+
+namespace WildernessCallouts.AmbientEvents
 {
     using Rage;
     using System.Collections.Generic;
@@ -47,18 +50,35 @@
         {
             base.Action();
 
-            if (this.Ped.Exists())
+            try
             {
-                Ped.SetMovementAnimationSet(_drunkAnimationSets.GetRandomElement());
-                Ped.Armor = 69;//compatibility with breathalyzer
-                Ped.Tasks.Wander();
+                if (this.Ped.Exists())
+                {
+                    Ped.SetMovementAnimationSet(_drunkAnimationSets.GetRandomElement());
+                    Ped.Armor = 69;//compatibility with breathalyzer
+                    Ped.Tasks.Wander();
+                }
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                Logger.LogException(e);
             }
         }
 
         public override void Process()
         {
-            if (!this.Ped.Exists() || this.Ped.IsDead || this.Ped.Position.DistanceTo(Game.LocalPlayer.Character.Position) > 350.0f) this.CleanUp();
-            base.Process();
+            try
+            {
+                if (!this.Ped.Exists() || this.Ped.IsDead || this.Ped.Position.DistanceTo(Game.LocalPlayer.Character.Position) > 350.0f) this.CleanUp();
+                base.Process();
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                Logger.LogExceptionDebug(GetType().Name, e);
+            }
+
         }
 
         public override void CleanUp()
