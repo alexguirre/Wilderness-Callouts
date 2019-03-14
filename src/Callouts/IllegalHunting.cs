@@ -294,8 +294,9 @@
                 Game.SetRelationshipBetweenRelationshipGroups("HUNTER", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("HUNTER", "PLAYER", Relationship.Hate);
 
-                this.pursuit = LSPD_First_Response.Mod.API.Functions.CreatePursuit();
-                LSPD_First_Response.Mod.API.Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                this.pursuit = Functions.CreatePursuit();
+                Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
 
                 isPursuitRunning = true;
 
@@ -370,8 +371,9 @@
                     if (hunter.IsInAnyVehicle(false) && hunter.IsAlive) hunter.Tasks.CruiseWithVehicle(hunterVeh, 200.0f, driveFlags);
 
 
-                    this.pursuit = LSPD_First_Response.Mod.API.Functions.CreatePursuit();
-                    LSPD_First_Response.Mod.API.Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                    this.pursuit = Functions.CreatePursuit();
+                    Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
 
                     isPursuitRunning = true;
                 }

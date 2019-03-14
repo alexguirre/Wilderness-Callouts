@@ -259,6 +259,7 @@ namespace WildernessCallouts.Callouts
                     pursuit = LSPD_First_Response.Mod.API.Functions.CreatePursuit();
                     hasPursuitStarted = true;
                     LSPD_First_Response.Mod.API.Functions.AddPedToPursuit(pursuit, ped);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                     shouldAttack = true;
                     if (ped.IsInAnyVehicle(false))
                     {

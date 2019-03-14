@@ -177,6 +177,7 @@
 
                         pursuit = Functions.CreatePursuit();
                         Functions.AddPedToPursuit(pursuit, suspect);
+                        Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                         isPursuitInitiated = true;
                     }
                 });
@@ -212,6 +213,7 @@
 
                         pursuit = Functions.CreatePursuit();
                         Functions.AddPedToPursuit(pursuit, suspect);
+                        Functions.SetPursuitIsActiveForPlayer(pursuit, suspect);
                         isPursuitInitiated = true;
                     }
                 });
@@ -242,6 +244,7 @@
 
                             pursuit = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(pursuit, suspect);
+                            Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                             isPursuitInitiated = true;
                         }
                     }

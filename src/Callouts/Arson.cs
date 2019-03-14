@@ -317,6 +317,7 @@
                         pursuit = Functions.CreatePursuit();
                         isPursuitInitiated = true;
                         Functions.AddPedToPursuit(pursuit, suspect);
+                        Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                     }
                 }
             }

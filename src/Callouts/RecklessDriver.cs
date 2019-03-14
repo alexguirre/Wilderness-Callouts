@@ -100,6 +100,7 @@
         {
             pursuit = Functions.CreatePursuit();
             Functions.AddPedToPursuit(pursuit, recklessDriver);
+            Functions.SetPursuitIsActiveForPlayer(pursuit, true);
             hasStartedPursuit = true;
             Functions.RequestBackup(spawnPoint.Around(20.0f), EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
             //monsterTruck.DriveForce = 5.0f;
