@@ -310,7 +310,7 @@
             ResText genderText = new ResText("GENDER:  ~b~" + persona.Gender, new Point((int)res.Width - 320, (int)res.Height - 500), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText birthdayText = new ResText("BIRTHDAY:  ~b~" + persona.BirthDay.ToShortDateString(), new Point((int)res.Width - 320, (int)res.Height - 450), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText citationsText = new ResText("CITATIONS:  ~b~" + persona.Citations, new Point((int)res.Width - 320, (int)res.Height - 400), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
-            ResText wantedText = new ResText("EXTRA INFO:  ~b~" + (persona.Wanted ? "~r~WANTED" : persona.IsCop ? "~g~OFF-DUTY OFFICER" : persona.IsAgent ? "~g~FEDERAL AGENT" : "NONE"), new Point((int)res.Width - 320, (int)res.Height - 350), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
+            ResText wantedText = new ResText("EXTRA INFO:  ~b~" + (persona.Wanted ? "~r~WANTED" : "NONE"), new Point((int)res.Width - 320, (int)res.Height - 350), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
 
             _canOverrideDrawInfo = false;
             while (true)

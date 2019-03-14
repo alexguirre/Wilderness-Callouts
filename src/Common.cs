@@ -103,12 +103,12 @@
             if (!_fishingLicensesDict.ContainsKey(persona.FullName))
             {
                 string license = licenseState.GetRandomElement();
-                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "FISHING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.BirthDay.ToShortDateString() + "~n~~w~Fishing license is " + license);
+                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "FISHING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.Birthday.ToShortDateString() + "~n~~w~Fishing license is " + license);
                 _fishingLicensesDict.Add(persona.FullName, license);
             }
             else
             {
-                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "FISHING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.BirthDay.ToShortDateString() + "~n~~w~Fishing license is " + _fishingLicensesDict[persona.FullName]);
+                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "FISHING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.Birthday.ToShortDateString() + "~n~~w~Fishing license is " + _fishingLicensesDict[persona.FullName]);
             }
         }
         public static Dictionary<string, string> FishingLicensesDictionary { get { return _fishingLicensesDict; } }
