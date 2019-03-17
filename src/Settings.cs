@@ -47,7 +47,7 @@
             public static readonly bool IsAttackedPoliceStationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Attacked Police Station", true);
             public static readonly bool IsDemonstrationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Demonstration", true);
             //public static readonly bool IsEscortEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Escort", true); 
-            public static readonly bool IsMurderInsvestigationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Murder Insvestigation", true);
+            public static readonly bool IsMurderInvestigationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Murder Insvestigation", true);
         }
 
         public static class AmbientEvents
@@ -104,7 +104,13 @@
             public const string SECTION_NAME = "Air Ambulance";
 
             public static readonly string ParamedicName = Settings.INIFile.ReadString(SECTION_NAME, "Name", "Paramedic");
-            public static readonly Model HeliModel = INIFile.ReadString(SECTION_NAME, "Helicoter Model", "polmav");
+
+
+            public static readonly Model HeliModel = (INIFile.DoesKeyExist(SECTION_NAME, "Helicopter Model")) ?
+                INIFile.ReadString(SECTION_NAME, "Helicopter Model", "polmav")
+                : INIFile.ReadString(SECTION_NAME, "Helicoter Model", "polmav");
+
+
             public static readonly int HeliLiveryIndex = Settings.INIFile.ReadInt32(SECTION_NAME, "Helicoter Livery Index", 0);
             public static readonly Model[] PilotModels = Array.ConvertAll<string, Model>(Settings.INIFile.ReadString(SECTION_NAME, "Pilot Models", "s_m_m_pilot_02").Split(','), x => new Model(x));
             public static readonly Model[] ParamedicModels = Array.ConvertAll<string, Model>(Settings.INIFile.ReadString(SECTION_NAME, "Paramedic Models", "s_m_m_paramedic_01").Split(','), x => new Model(x));
