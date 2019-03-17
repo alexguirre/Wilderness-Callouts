@@ -16,46 +16,46 @@
     {
         public static void RegisterCallouts()
         {
-            if (Settings.Callouts.IsIllegalHuntingEnable)
+            if (Settings.Callouts.IsIllegalHuntingEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(IllegalHunting));
 
-            if (Settings.Callouts.IsRocksBlockEnable)
+            if (Settings.Callouts.IsRocksBlockEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(RocksBlockingRoad));
 
-            if (Settings.Callouts.IsAircraftCrashEnable)
+            if (Settings.Callouts.IsAircraftCrashEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(AircraftCrash));
 
-            if (Settings.Callouts.IsRecklessDriverEnable)
+            if (Settings.Callouts.IsRecklessDriverEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(RecklessDriver));
 
-            if (Settings.Callouts.IsWantedFelonEnable)
+            if (Settings.Callouts.IsWantedFelonEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(WantedFelonInVehicle));
 
-            if (Settings.Callouts.IsSuicideAttemptEnable)
+            if (Settings.Callouts.IsSuicideAttemptEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(SuicideAttempt));
 
-            if (Settings.Callouts.IsMissingPersonEnable)
+            if (Settings.Callouts.IsMissingPersonEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(MissingPerson));
 
-            if (Settings.Callouts.IsAnimalAttackEnable)
+            if (Settings.Callouts.IsAnimalAttackEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(AnimalAttack));
 
-            if (Settings.Callouts.IsPublicDisturbanceEnable)
+            if (Settings.Callouts.IsPublicDisturbanceEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(PublicDisturbance));
 
-            if (Settings.Callouts.IsHostageSituationEnable)
+            if (Settings.Callouts.IsHostageSituationEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(HostageSituation));
 
-            if (Settings.Callouts.IsArsonEnable)
+            if (Settings.Callouts.IsArsonEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(Arson));
 
-            if (Settings.Callouts.IsOfficerNeedsTransportEnable)
+            if (Settings.Callouts.IsOfficerNeedsTransportEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(OfficerNeedsTransport));
 
-            if (Settings.Callouts.IsAttackedPoliceStationEnable)
+            if (Settings.Callouts.IsAttackedPoliceStationEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(AttackedPoliceStation));
 
-            if (Settings.Callouts.IsDemonstrationEnable)
+            if (Settings.Callouts.IsDemonstrationEnabled)
                 LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(Demonstration));
 
             //LSPD_First_Response.Mod.API.Functions.RegisterCallout(typeof(MurderInvestigation));
