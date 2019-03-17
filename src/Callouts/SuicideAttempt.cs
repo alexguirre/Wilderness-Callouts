@@ -115,7 +115,7 @@
 
             if (state == ESuicideAttemptState.WaitingToTalkToSuicide && Vector3.Distance(spawnUsed.SuicidePed.Position, Game.LocalPlayer.Character.Position) < 9.0f)
             {
-                Game.DisplayHelp("Press ~b~" + Controls.PrimaryAction.ToUserFriendlyName() + "~s~ to start talking to the potential suicide");
+                Game.DisplayHelp("Press ~b~" + Controls.PrimaryAction.ToUserFriendlyName() + "~s~ to start talking to the subject");
                 if (Controls.PrimaryAction.IsJustPressed())
                 {
                     state = ESuicideAttemptState.TalkingToSuicide;
@@ -129,18 +129,18 @@
                 switch (decisionController.FinalDecision)
                 {
                     case SuicideDecisionController.DecisionTypes.NotSuicide:
-                        Game.DisplaySubtitle("~b~Suicide:~s~ " + (Globals.Random.Next(2) == 1 ? "I'm not gonna do it, I'm going down" : "I can't do it, I'm gonna get down"), 6500);
+                        Game.DisplaySubtitle("~y~Subject:~s~ " + (Globals.Random.Next(2) == 1 ? "I'm not gonna do it, I'm going down" : "I can't do it, I'm gonna get down"), 6500);
                         GameFiber.Sleep(1750);
                         TeleportSuicideAndPlayerToSergeant();
                         break;
                     case SuicideDecisionController.DecisionTypes.Suicide:
-                        int suiceMethodRnd = Globals.Random.Next(4);
-                        if (suiceMethodRnd == 0)
+                        int suicideMethod = Globals.Random.Next(4);
+                        if (suicideMethod == 0)
                         {
                             string[] weaponsAssets = { "WEAPON_PISTOL", "WEAPON_PISTOL50", "WEAPON_HEAVYPISTOL", "WEAPON_COMBATPISTOL" };
                             spawnUsed.SuicidePed.SuicideWeapon(weaponsAssets.GetRandomElement());
                         }
-                        else if (suiceMethodRnd >= 1)
+                        else if (suicideMethod >= 1)
                         {
                             spawnUsed.SuicidePed.Health -= 50;
                             spawnUsed.SuicidePed.Tasks.Jump();
@@ -179,7 +179,7 @@
                         break;
                     case SuicideDecisionController.DecisionTypes.AttackPlayer:
                         spawnUsed.SuicidePed.PlayAmbientSpeech(Globals.Random.Next(2) == 1 ? Speech.GENERIC_SHOCKED_HIGH : Speech.GENERIC_SHOCKED_MED);
-                        Game.DisplaySubtitle("~b~Commanding Officer:~s~ That didn't went very well", 4600);
+                        Game.DisplaySubtitle("~b~Commanding Officer:~s~ That didn't go very well", 4600);
                         break;
                     default:
                         break;
@@ -321,7 +321,7 @@
                 Logger.LogTrivial("Adding to decision: " + UserInterface.Option1Data.Value);
                 Game.DisplaySubtitle("~b~You:~s~ " + UserInterface.Option1Data.Phrase, 6500);
                 GameFiber.Sleep(3900);
-                Game.DisplaySubtitle("~b~Suicide:~s~ " + UserInterface.Option1Data.Response, 6500);
+                Game.DisplaySubtitle("~y~Subject:~s~ " + UserInterface.Option1Data.Response, 6500);
                 GameFiber.Sleep(3900);
                 if ((CurrentOptionIndex > 2 && Globals.Random.Next(3) <= 1) || (CurrentOptionIndex >= Options.Length - 1))
                 {
@@ -341,7 +341,7 @@
                 Logger.LogTrivial("Adding to decision: " + UserInterface.Option2Data.Value);
                 Game.DisplaySubtitle("~b~You:~s~ " + UserInterface.Option2Data.Phrase, 6500);
                 GameFiber.Sleep(3900);
-                Game.DisplaySubtitle("~b~Suicide:~s~ " + UserInterface.Option2Data.Response, 6500);
+                Game.DisplaySubtitle("~y~Subject:~s~ " + UserInterface.Option2Data.Response, 6500);
                 GameFiber.Sleep(3900);
                 if ((CurrentOptionIndex > 2 && Globals.Random.Next(3) <= 1) || (CurrentOptionIndex >= Options.Length - 1))
                 {
@@ -361,7 +361,7 @@
                 Logger.LogTrivial("Adding to decision: " + UserInterface.Option3Data.Value);
                 Game.DisplaySubtitle("~b~You:~s~ " + UserInterface.Option3Data.Phrase, 6500);
                 GameFiber.Sleep(3900);
-                Game.DisplaySubtitle("~b~Suicide:~s~ " + UserInterface.Option3Data.Response, 6500);
+                Game.DisplaySubtitle("~y~Subject:~s~ " + UserInterface.Option3Data.Response, 6500);
                 GameFiber.Sleep(3900);
                 if ((CurrentOptionIndex > 2 && Globals.Random.Next(3) <= 1) || (CurrentOptionIndex >= Options.Length - 1))
                 {
