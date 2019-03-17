@@ -111,7 +111,10 @@
                 : INIFile.ReadString(SECTION_NAME, "Helicoter Model", "polmav");
 
 
-            public static readonly int HeliLiveryIndex = Settings.INIFile.ReadInt32(SECTION_NAME, "Helicoter Livery Index", 0);
+            public static readonly int HeliLiveryIndex = (INIFile.DoesKeyExist(SECTION_NAME, "Helicopter Livery Index")) ?
+                INIFile.ReadInt32(SECTION_NAME, "Helicopter Livery Index", 0) :
+                INIFile.ReadInt32(SECTION_NAME, "Helicoter Livery Index", 0);
+
             public static readonly Model[] PilotModels = Array.ConvertAll<string, Model>(Settings.INIFile.ReadString(SECTION_NAME, "Pilot Models", "s_m_m_pilot_02").Split(','), x => new Model(x));
             public static readonly Model[] ParamedicModels = Array.ConvertAll<string, Model>(Settings.INIFile.ReadString(SECTION_NAME, "Paramedic Models", "s_m_m_paramedic_01").Split(','), x => new Model(x));
         }
