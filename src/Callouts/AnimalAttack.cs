@@ -19,7 +19,7 @@
 
         private static string animalModel = "a_c_mtlion";
 
-        private static string[] pedPhrases = { "Help!", "Anyone! Help!" };
+        private static string[] pedPhrases = { "Help!", "Anyone! Help!", "Aaaagh! Help", "Arrgh! Help me!" };
 
         bool hasTalked = false;
 
@@ -104,7 +104,7 @@
 
         public override void Process()
         {
-            if (attackedPed.IsDead)
+            if (attackedPed && attackedPed.IsDead)
             {
                 Game.DisplayNotification("The person has died");
             }
