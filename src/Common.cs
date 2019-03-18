@@ -1,4 +1,7 @@
-﻿namespace WildernessCallouts
+﻿using WildernessCallouts.CalloutFunct;
+using WildernessCallouts.Peds;
+
+namespace WildernessCallouts
 {
     using System;
     using System.Collections.Generic;
@@ -226,6 +229,38 @@
             else return null;
         }
 
+        /// <summary>
+        /// Returns the closest animal to the player.
+        /// </summary>
+        /// <param name="radius">Radius</param>
+        /// <param name="maximumPedsToEvalute">maximum 16 -- number of peds to evaluate</param>
+        /// <returns>the closest animal to the position</returns>
+        public static Ped GetClosestAnimal(float radius, int maximumPedsToEvalute)
+        {
+            List<Ped> pedList = Game.LocalPlayer.Character.GetNearbyPeds(maximumPedsToEvalute).ToList();
+
+            Ped animal = (Ped)(from x in pedList where x.IsAnimal() && x.Position.DistanceTo(Game.LocalPlayer.Character.Position) < radius orderby x.Position.DistanceTo(Game.LocalPlayer.Character.Position) select x).FirstOrDefault<Ped>();
+
+            if (animal != null && animal.Exists()) return animal;
+            else return null;
+        }
+
+
+        /// <summary>
+        /// Returns a ped who may need rescuing by the air ambulance.
+        /// </summary>
+        /// <returns></returns>
+        public static Ped GetPedToRescue()
+        {
+            Ped pedToRescue = Game.LocalPlayer.Character.GetNearbyPeds(16).ToList().Where(x =>
+                    (x.IsDead || x.Health <= 20 || x == MissingPerson.CurrentMissingPed) && x != Game.LocalPlayer.Character &&
+                    x.IsHuman && Vector3.Distance(x.Position, Game.LocalPlayer.Character.Position) < 15.0f &&
+                    !AirParamedic.RescuedPeds.Contains(x))
+                .OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position))
+                .FirstOrDefault();
+            return pedToRescue;
+        }
+
 
         /// <summary>
         /// Toggles the night vision
@@ -433,6 +468,27 @@
         //    return Game.CreateTextureFromFile(tempPath);
         //}
 
+        /// <summary>
+        /// Get a valid animal for vet pickup, or return null if no animal was found.
+        /// </summary>
+        /// <returns></returns>
+        public static Ped GetValidAnimalForVetPickup()
+        {
+            Ped animal = WildernessCallouts.Common.GetClosestAnimal(Game.LocalPlayer.Character.Position, 30.0f);
+
+            int timesToLoop = 0;
+            while (timesToLoop < 20)
+            {
+                if (animal.Exists() && animal.IsDead && !Vet.TakenAnimals.Contains(animal))
+                    break;
+                animal = WildernessCallouts.Common.GetClosestAnimal(Game.LocalPlayer.Character.Position, 35.0f);
+                timesToLoop++;
+            } // Gets the closest dead animal
+
+            if (!animal.Exists() || animal.IsAlive || Vet.TakenAnimals.Contains(animal))
+                return animal;
+            return animal;
+        }
 
 #if DEBUG
         public static string GetUserInput(EWindowTitle windowTitle, string defaultText, int maxLength)

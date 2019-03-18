@@ -105,24 +105,13 @@
                 }
                 else if (selectedItem == CallAirAmbulanceItem)
                 {
-                    Ped pedToRescue = World.GetAllPeds().Where(x => (x.IsDead || x.Health <= 20 || x == MissingPerson.CurrentMissingPed) && x != Game.LocalPlayer.Character && x.IsHuman && Vector3.Distance(x.Position, Game.LocalPlayer.Character.Position) < 15.0f && !AirParamedic.RescuedPeds.Contains(x)).OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+                    Ped pedToRescue = WildernessCallouts.Common.GetPedToRescue();
                     AirParamedic airpara = new AirParamedic(pedToRescue, "You can leave, we will take care of him, thanks", "You can leave, we will take care of her, thanks");
                     airpara.Start();
                 }
                 else if (selectedItem == CallVetItem)
                 {
-                    Ped animal = WildernessCallouts.Common.GetClosestAnimal(Game.LocalPlayer.Character.Position, 30.0f);
-
-                    int timesToLoop = 0;
-                    while (timesToLoop < 20)
-                    {
-                        if (animal.Exists() && animal.IsDead && !Vet.TakenAnimals.Contains(animal))
-                            break;
-                        animal = WildernessCallouts.Common.GetClosestAnimal(Game.LocalPlayer.Character.Position, 35.0f);
-                        timesToLoop++;
-                    }           // Gets the closest dead animal
-                    if (!animal.Exists() || animal.IsAlive || Vet.TakenAnimals.Contains(animal))
-                        return;
+                    Ped animal = WildernessCallouts.Common.GetValidAnimalForVetPickup();
 
                     Vet vet = new Vet(animal);
                     vet.Start();
@@ -135,6 +124,8 @@
 #endif
             });
         }
+
+
 
         public static void StartCalloutSubMenuOnItemSelected(UIMenu sender, UIMenuItem selectedItem, int index)
         {

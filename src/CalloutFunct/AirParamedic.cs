@@ -36,7 +36,7 @@
 
         public Ped PedToRescue { get; }
 
-        public AirParamedic(Ped toRescue, string phraseToSayToThePlayerMaleVersion, string phraseToSayToThePlayerFemaleVersion)
+        public AirParamedic(Ped toRescue, string phraseToSayToThePlayerMaleVersion = "You can leave, we will take care of him, thanks", string phraseToSayToThePlayerFemaleVersion = "You can leave, we will take care of her, thanks")
         {
             _rescuedPeds.Add(toRescue);
             PedToRescue = toRescue;

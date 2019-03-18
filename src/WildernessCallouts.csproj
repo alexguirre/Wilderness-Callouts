@@ -41,6 +41,9 @@
       <HintPath>..\dependencies\LSPD First Response.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PoliceSmartRadio">
+      <HintPath>..\dependencies\PoliceSmartRadio.dll</HintPath>
+    </Reference>
     <Reference Include="RAGENativeUI">
       <HintPath>..\dependencies\RAGENativeUI.dll</HintPath>
       <Private>False</Private>
@@ -77,6 +80,7 @@
     <Compile Include="Controls.cs" />
     <Compile Include="Dialogues\MissingPersonDialogues.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="Integrations\PoliceSmartRadioFunctions.cs" />
     <Compile Include="Menus\InteractionMenu.cs" />
     <Compile Include="Callouts\AircraftCrash.cs" />
     <Compile Include="Callouts\AnimalAttack.cs" />
@@ -107,6 +111,15 @@
     <Compile Include="Types\SpawnPoint.cs" />
     <Compile Include="Types\Speech.cs" />
     <Compile Include="Types\WorldZone.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="PoliceSmartRadio\Display\Off\Wilderness Callouts\airparamedic.png" />
+    <Content Include="PoliceSmartRadio\Display\Off\Wilderness Callouts\CREDITS.txt" />
+    <Content Include="PoliceSmartRadio\Display\Off\Wilderness Callouts\vet.png" />
+    <Content Include="PoliceSmartRadio\Display\On\Wilderness Callouts\airparamedic.png" />
+    <Content Include="PoliceSmartRadio\Display\On\Wilderness Callouts\CREDITS.txt" />
+    <Content Include="PoliceSmartRadio\Display\On\Wilderness Callouts\vet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
