@@ -50,7 +50,7 @@ namespace WildernessCallouts.Integrations
             }
             catch (Exception e)
             {
-                Game.LogTrivial($"{e}");
+                Logger.LogException(e);
             }
         }
 
@@ -59,18 +59,22 @@ namespace WildernessCallouts.Integrations
         /// </summary>
         public void CallVet()
         {
-            try
+            GameFiber.StartNew(() =>
             {
-                Ped animal = WildernessCallouts.Common.GetValidAnimalForVetPickup();
+                try
+                {
+                    Ped animal = WildernessCallouts.Common.GetValidAnimalForVetPickup();
 
-                Vet vet = new Vet(animal);
-                vet.Start();
-            }
-            catch (Exception e)
-            {
-                Game.LogTrivial($"{e}");
-                Game.DisplayNotification("Unable to call the vet at this time. See RagePluginHook.log for details.");
-            }
+                    Vet vet = new Vet(animal);
+                    vet.Start();
+                }
+                catch (Exception e)
+                {
+                    Logger.LogException(e);
+                    Game.DisplayNotification("Unable to call the vet at this time. See RagePluginHook.log for details.");
+                }
+            }, "CallVet");
+
         }
 
 
@@ -79,18 +83,22 @@ namespace WildernessCallouts.Integrations
         /// </summary>
         public void CallAirParamedic()
         {
-            try
+            GameFiber.StartNew(() =>
             {
-                Ped pedToRescue = WildernessCallouts.Common.GetPedToRescue();
+                try
+                {
+                    Ped pedToRescue = WildernessCallouts.Common.GetPedToRescue();
 
-                AirParamedic airParamedic = new AirParamedic(pedToRescue);
-                airParamedic.Start();
-            }
-            catch (Exception e)
-            {
-                Game.LogTrivial($"{e}");
-                Game.DisplayNotification("Unable to call the vet at this time. See RagePluginHook.log for details.");
-            }
+                    AirParamedic airParamedic = new AirParamedic(pedToRescue);
+                    airParamedic.Start();
+                }
+                catch (Exception e)
+                {
+                    Logger.LogException(e);
+                    Game.DisplayNotification("Unable to call the vet at this time. See RagePluginHook.log for details.");
+                }
+            }, "CallAirParamedic");
+
         }
 
 
@@ -100,7 +108,14 @@ namespace WildernessCallouts.Integrations
         /// </summary>
         public bool VetIsAvailable()
         {
-            return Common.GetClosestAnimal(30, 8);
+            try
+            {
+                return Common.GetClosestAnimal(30, 8);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -110,7 +125,16 @@ namespace WildernessCallouts.Integrations
         /// <returns></returns>
         public bool AirParamedicIsAvailable()
         {
-            return Common.GetPedToRescue();
+            try
+            {
+                Ped ped = Common.GetPedToRescue();
+                Logger.LogDebug($"Air paramedic is avail: {ped}");
+                return ped;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }
