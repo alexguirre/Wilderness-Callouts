@@ -7,7 +7,7 @@
     {
         public static void ApplyDamagePack(this Ped ped, string damagePackName, float damage, float multiplier)
         {
-            NativeFunction.CallByName<uint>("APPLY_PED_DAMAGE_PACK", ped, damagePackName, damage, multiplier);
+            NativeFunction.Natives.APPLY_PED_DAMAGE_PACK(ped, damagePackName, damage, multiplier);
         }
 
         public const string BigHitByVehicle = "BigHitByVehicle";

@@ -298,9 +298,9 @@
 
                 victimPedClone = victimPed.Clone(0.0f);
 
-                NativeFunction.CallByName<uint>("REVIVE_INJURED_PED", victimPedClone);
-                NativeFunction.CallByName<uint>("SET_ENTITY_HEALTH", victimPedClone, 200.0f);
-                NativeFunction.CallByName<uint>("RESURRECT_PED", victimPedClone);
+                NativeFunction.Natives.REVIVE_INJURED_PED(victimPedClone);
+                NativeFunction.Natives.SET_ENTITY_HEALTH(victimPedClone, 200.0f);
+                NativeFunction.Natives.RESURRECT_PED(victimPedClone);
                 victimPedClone.Tasks.ClearImmediately();
 
                 victimPedClone.Position = scenario.VictimFootageSpawnPoint.Position;
@@ -321,8 +321,8 @@
                 footageCamera.FOV -= 20;
                 footageCamera.Position = cctvObject.Position;
                 footageCamera.PointAtEntity(victimPed, Vector3.Zero, true);
-                NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", true);
-                NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.1f);
+                NativeFunction.Natives.SET_NOISEOVERIDE(true);
+                NativeFunction.Natives.SET_NOISINESSOVERIDE(0.1f);
 
                 victimPedClone.Health = 170;
                 murdererPedClone.IsInvincible = true;
@@ -341,7 +341,7 @@
                     {
                         GameFiber.Yield();
 
-                        NativeFunction.CallByName<uint>("HIDE_HUD_AND_RADAR_THIS_FRAME");
+                        NativeFunction.Natives.HIDE_HUD_AND_RADAR_THIS_FRAME();
                         new ResRectangle(new Point(0, 0), new Size(245, 195), Color.FromArgb(145, Color.Gray)).Draw();
                         new ResText("CCTV #" + cctvCameraNumber + "~n~" + DateTime.UtcNow.ToShortDateString() + "~n~" + DateTime.UtcNow.ToLongTimeString(), new Point(5, 5), 0.747f).Draw();
                     }
@@ -350,7 +350,7 @@
 
                 // footage
                 Task murdererMoveTask = murdererPedClone.Tasks.GoToOffsetFromEntity(victimPedClone, 1.1325f, 180.0f, 0.5f);
-                NativeFunction.CallByName<uint>("SET_PED_STEALTH_MOVEMENT", murdererPedClone, 1, 0);
+                NativeFunction.Natives.SET_PED_STEALTH_MOVEMENT( murdererPedClone, 1, 0);
                 murdererMoveTask.WaitForCompletion();
                 murdererPedClone.Inventory.GiveNewWeapon(WeaponHash.Knife, 1, true);
                 victimPedClone.Tasks.Clear();
@@ -365,8 +365,8 @@
 
                 // clean up
                 Game.FadeScreenOut(1750, true);
-                NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", false);
-                NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.0f);
+                NativeFunction.Natives.SET_NOISEOVERIDE(false);
+                NativeFunction.Natives.SET_NOISINESSOVERIDE(0.0f);
                 footageCamera.Delete();
                 murdererPedClone.Delete();
                 victimPedClone.Delete();
@@ -423,7 +423,7 @@ Shows suspect attacking victim with a knife and fleeing the crime scene.
                 victimPed = new Ped(scenario.VictimPedModel, scenario.VictimSpawnPoint.Position, scenario.VictimSpawnPoint.Heading);
                 if (!victimPed.Exists())
                     return false;
-                NativeFunction.CallByName<uint>("TASK_WRITHE", victimPed, Game.LocalPlayer.Character, -1, false);
+                NativeFunction.Natives.TASK_WRITHE(victimPed, Game.LocalPlayer.Character, -1, false);
                 victimPed.ApplyDamagePack(DamagePack.BigHitByVehicle, MathHelper.GetRandomSingle(1.0f, 10.0f), MathHelper.GetRandomSingle(1.0f, 15.0f));
 
                 murdererPed = new Ped(scenario.MurdererPedModel, scenario.MurdererSpawnPoint.Position, scenario.MurdererSpawnPoint.Heading);

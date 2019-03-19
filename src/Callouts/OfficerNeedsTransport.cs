@@ -61,7 +61,7 @@
             policeVehicle.EngineHealth = MathHelper.GetRandomSingle(390.0f, 10.0f);
             policeVehicle.DirtLevel = MathHelper.GetRandomSingle(0.0f, 15.0f);
             policeVehicle.IndicatorLightsStatus = VehicleIndicatorLightsStatus.Both;
-            if (Globals.Random.Next(2) == 1) NativeFunction.CallByName<uint>("SET_VEHICLE_DOOR_OPEN", policeVehicle, 4, false, true);
+            if (Globals.Random.Next(2) == 1) NativeFunction.Natives.SET_VEHICLE_DOOR_OPEN(policeVehicle, 4, false, true);
             if (Globals.Random.Next(3) == 1) policeVehicle.IsSirenOn = true;
 
 
@@ -274,7 +274,7 @@
                         EVehicleSeats seat2 = freeSeats[1];
                         policePed2.PlayAmbientSpeech(null, Speech.GENERIC_THANKS, 0, SpeechModifier.Standard);
 
-                        NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", policePed2, playerVeh, -1, 5.0f, 1.0f, 0, 0);
+                        NativeFunction.Natives.TASK_GO_TO_ENTITY(policePed2, playerVeh, -1, 5.0f, 1.0f, 0, 0);
                         while (Vector3.Distance(policePed2.Position, playerVeh.Position) > 6.0f)
                             GameFiber.Yield();
 
@@ -286,7 +286,7 @@
                     });
                 }
 
-                NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", policePed, playerVeh, -1, 5.0f, 1.0f, 0, 0);
+                NativeFunction.Natives.TASK_GO_TO_ENTITY(policePed, playerVeh, -1, 5.0f, 1.0f, 0, 0);
                 while (Vector3.Distance(policePed.Position, playerVeh.Position) > 6.0f)
                     GameFiber.Yield();
 

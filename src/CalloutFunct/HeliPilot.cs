@@ -30,12 +30,12 @@ namespace WildernessCallouts.Peds
             _heli = new Vehicle("polmav", GetSpawnPoint());
             _heli.SetLivery(0);
             _heli.IsEngineOn = true;
-            NativeFunction.CallByName<uint>("SET_HELI_BLADES_FULL_SPEED", _heli);
+            NativeFunction.Natives.SET_HELI_BLADES_FULL_SPEED(_heli);
             this.WarpIntoVehicle(_heli, -1);
             _heli.Velocity = Vector3.WorldUp * 10.0f + _heli.ForwardVector * 2.0f;
             if (Settings.General.IsDebugBuild) _blipTest = new Blip(_heli);
             GameFiber.Sleep(100);
-            NativeFunction.CallByName<uint>("TASK_HELI_CHASE", this, entityToFollow, MathHelper.GetRandomSingle(-35.0f, 35.0f), MathHelper.GetRandomSingle(-35.0f, 35.0f), MathHelper.GetRandomSingle(90.0f, 130.0f));
+            NativeFunction.Natives.TASK_HELI_CHASE(this, entityToFollow, MathHelper.GetRandomSingle(-35.0f, 35.0f), MathHelper.GetRandomSingle(-35.0f, 35.0f), MathHelper.GetRandomSingle(90.0f, 130.0f));
         }
         public void CleanUpHeliPilot()
         {

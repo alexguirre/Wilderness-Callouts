@@ -15,14 +15,14 @@
             Position = position;
             Children = children;
             IsGasFire = isGasFire;
-            Handle = NativeFunction.CallByName<int>("START_SCRIPT_FIRE", position.X, position.Y, position.Z, children, isGasFire);
+            Handle = NativeFunction.Natives.START_SCRIPT_FIRE<int>(position.X, position.Y, position.Z, children, isGasFire);
         }
 
         public void Remove()
         {
             if (Handle == -1) return;
 
-            NativeFunction.CallByName<uint>("REMOVE_SCRIPT_FIRE", Handle);
+            NativeFunction.Natives.REMOVE_SCRIPT_FIRE(Handle);
             Handle = -1;
         }
     }

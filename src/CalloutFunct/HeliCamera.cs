@@ -65,17 +65,17 @@
                     Camera.SetRotationYaw(Game.LocalPlayer.Character.CurrentVehicle.Heading);
                     Scaleform = new Scaleform();
                     Scaleform.Load("heli_cam");
-                    NativeFunction.CallByName<uint>("REQUEST_STREAMED_TEXTURE_DICT", "helicopterhud", true);
-                    Scaleform.CallFunction("SET_CAM_LOGO", 1);
+                    NativeFunction.Natives.REQUEST_STREAMED_TEXTURE_DICT("helicopterhud", true);
+                    Scaleform.CallFunction("SET_CAM_LOGO", 1);//TODO check this for updated Native invocation??
                     Camera.AttachToEntity(Game.LocalPlayer.Character.CurrentVehicle, GetCameraPositionOffsetForModel(Game.LocalPlayer.Character.CurrentVehicle.Model), true);
                     Sound.RequestAmbientAudioBank("SCRIPT\\POLICE_CHOPPER_CAM");
-                    NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", true);
-                    NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.15f);
+                    NativeFunction.Natives.SET_NOISEOVERIDE(true);
+                    NativeFunction.Natives.SET_NOISINESSOVERIDE(0.15f);
                 }
                 else if ((Controls.ToggleHeliCam.IsJustPressed() || !Game.LocalPlayer.Character.IsInHelicopter || Game.LocalPlayer.Character.CurrentVehicle.IsDead || Game.LocalPlayer.Character.IsDead) && (Camera != null && Camera.Exists()))
                 {
-                    NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", false);
-                    NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.0f);
+                    NativeFunction.Natives.SET_NOISEOVERIDE(false);
+                    NativeFunction.Natives.SET_NOISINESSOVERIDE(0.0f);
                     Camera.Delete();
                     Camera = null;
                     Scaleform = null;
@@ -98,7 +98,7 @@
                     if (BackgroundSound.HasFinished())
                         BackgroundSound.PlayFrontend("COP_HELI_CAM_BACKGROUND", null);
 
-                    NativeFunction.CallByName<uint>("HIDE_HUD_AND_RADAR_THIS_FRAME");
+                    NativeFunction.Natives.HIDE_HUD_AND_RADAR_THIS_FRAME();
                     WildernessCallouts.Common.DisEnableGameControls(false, GameControl.Enter, GameControl.VehicleExit, GameControl.VehicleAim, GameControl.VehicleAttack, GameControl.VehicleAttack2, GameControl.VehicleDropProjectile, GameControl.VehicleDuck/*, GameControl.VehicleFlyAttack, GameControl.VehicleFlyAttack2*/, GameControl.VehicleFlyAttackCamera, GameControl.VehicleFlyDuck, GameControl.VehicleFlySelectNextWeapon, GameControl.VehicleFlySelectPrevWeapon, GameControl.VehicleHandbrake, GameControl.VehicleJump, GameControl.LookLeftRight, GameControl.LookUpDown, GameControl.WeaponWheelPrev, GameControl.WeaponWheelNext);
                     
                     float FOVpercentage = -((Camera.FOV - 70/*max FOV*/)) / 35/*min FOV*/;
@@ -114,8 +114,8 @@
 
                     //Camera.Rotation = new Rotator(Camera.Rotation.Pitch - upDown, Camera.Rotation.Roll, Camera.Rotation.Yaw - leftRight);
 
-                    float yRotMagnitude = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.LookUpDown) * moveSpeed;
-                    float xRotMagnitude = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.LookLeftRight) * moveSpeed;
+                    float yRotMagnitude = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.LookUpDown) * moveSpeed;
+                    float xRotMagnitude = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.LookLeftRight) * moveSpeed;
 
                     float newPitch = Camera.Rotation.Pitch - yRotMagnitude;
                     float newYaw = Camera.Rotation.Yaw - xRotMagnitude;
@@ -138,8 +138,8 @@
                     if (!WildernessCallouts.Common.IsUsingController())
                     {
                         WildernessCallouts.Common.DisEnableGameControls(false, GameControl.WeaponWheelPrev, GameControl.WeaponWheelNext);
-                        float wheelForwards = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.WeaponWheelPrev) * 1.725f;
-                        float wheelBackwards = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.WeaponWheelNext) * 1.725f;
+                        float wheelForwards = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.WeaponWheelPrev) * 1.725f;
+                        float wheelBackwards = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.WeaponWheelNext) * 1.725f;
 
                         Camera.FOV -= wheelForwards - wheelBackwards;
                         if (Camera.FOV > 70f) Camera.FOV = 70f;
@@ -152,8 +152,8 @@
                             ZoomSound.PlayFrontend("COP_HELI_CAM_ZOOM", null);
                         }
                         WildernessCallouts.Common.DisEnableGameControls(false, GameControl.VehicleFlyThrottleUp, GameControl.VehicleFlyThrottleDown);
-                        float up = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.VehicleFlyThrottleUp);
-                        float down = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.VehicleFlyThrottleDown);
+                        float up = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.VehicleFlyThrottleUp);
+                        float down = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.VehicleFlyThrottleDown);
 
                         Camera.FOV -= up - down;
                         if (Camera.FOV > 70f) Camera.FOV = 70f;
@@ -310,7 +310,7 @@
             ResText genderText = new ResText("GENDER:  ~b~" + persona.Gender, new Point((int)res.Width - 320, (int)res.Height - 500), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText birthdayText = new ResText("BIRTHDAY:  ~b~" + persona.BirthDay.ToShortDateString(), new Point((int)res.Width - 320, (int)res.Height - 450), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText citationsText = new ResText("CITATIONS:  ~b~" + persona.Citations, new Point((int)res.Width - 320, (int)res.Height - 400), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
-            ResText wantedText = new ResText("EXTRA INFO:  ~b~" + (persona.Wanted ? "~r~WANTED" : persona.IsCop ? "~g~OFF-DUTY OFFICER" : persona.IsAgent ? "~g~FEDERAL AGENT" : "NONE"), new Point((int)res.Width - 320, (int)res.Height - 350), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
+            ResText wantedText = new ResText("EXTRA INFO:  ~b~" + (persona.Wanted ? "~r~WANTED" : "NONE"), new Point((int)res.Width - 320, (int)res.Height - 350), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
 
             _canOverrideDrawInfo = false;
             while (true)
@@ -359,8 +359,8 @@
                 SearchLoopSound.Stop();
             if (!SearchSuccessSound.HasFinished())
                 SearchLoopSound.Stop();
-            NativeFunction.CallByName<uint>("SET_NOISEOVERIDE", false);
-            NativeFunction.CallByName<uint>("SET_NOISINESSOVERIDE", 0.0f);
+            NativeFunction.Natives.SET_NOISEOVERIDE(false);
+            NativeFunction.Natives.SET_NOISINESSOVERIDE(0.0f);
             if (Camera.Exists())
             {
                 Camera.Delete();

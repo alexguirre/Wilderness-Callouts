@@ -1,4 +1,6 @@
-﻿namespace WildernessCallouts.Callouts
+﻿using LSPD_First_Response.Engine.Scripting.Entities;
+
+namespace WildernessCallouts.Callouts
 {
     using Rage;
     using LSPD_First_Response.Mod.API;
@@ -92,9 +94,16 @@
 
             if (ped.Exists()) ped.Inventory.GiveNewWeapon(weaponAsset.GetRandomElement(true), 666, false);
 
-            LSPD_First_Response.Engine.Scripting.Entities.Persona pedPersona = Functions.GetPersonaForPed(ped);               // Sets the ped persona as wanted         
-            Functions.SetPersonaForPed(ped, new LSPD_First_Response.Engine.Scripting.Entities.Persona(ped, pedPersona.Gender, pedPersona.BirthDay, pedPersona.Citations, pedPersona.Forename, pedPersona.Surname, pedPersona.LicenseState,
-                                       pedPersona.TimesStopped, true, pedPersona.IsAgent, pedPersona.IsCop));
+            LSPD_First_Response.Engine.Scripting.Entities.Persona pedPersona = Functions.GetPersonaForPed(ped);               // Sets the ped persona as wanted       
+
+            Persona newPersona = new Persona(pedPersona.Forename, pedPersona.Surname, pedPersona.Gender, pedPersona.Birthday)
+            {
+                Wanted = true,
+                Citations = pedPersona.Citations,
+                ELicenseState = pedPersona.ELicenseState,
+                TimesStopped = pedPersona.TimesStopped
+            };
+            Functions.SetPersonaForPed(ped, newPersona);
 
             if (Globals.Random.Next(2) == 1) pedVehicle.InstallRandomMods();
 
@@ -250,6 +259,7 @@
                     pursuit = LSPD_First_Response.Mod.API.Functions.CreatePursuit();
                     hasPursuitStarted = true;
                     LSPD_First_Response.Mod.API.Functions.AddPedToPursuit(pursuit, ped);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                     shouldAttack = true;
                     if (ped.IsInAnyVehicle(false))
                     {

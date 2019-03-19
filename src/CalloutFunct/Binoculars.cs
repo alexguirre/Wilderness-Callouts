@@ -56,8 +56,8 @@
 
                     float moveSpeed = (binocCam.FOV / 100) * (WildernessCallouts.Common.IsUsingController() ? 3.5f : 5.25f);
 
-                    float upDown = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.LookUpDown) * moveSpeed;
-                    float leftRight = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.LookLeftRight) * moveSpeed;
+                    float upDown = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.LookUpDown) * moveSpeed;
+                    float leftRight = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.LookLeftRight) * moveSpeed;
 
                     binocCam.Rotation = new Rotator(binocCam.Rotation.Pitch - upDown, binocCam.Rotation.Roll, binocCam.Rotation.Yaw - leftRight);
 
@@ -65,8 +65,8 @@
                     else if (binocCam.Rotation.Pitch <= -85.0f) binocCam.SetRotationPitch(-84.98f);
 
 
-                    float wheelForwards = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.WeaponWheelPrev) * 1.81125f;
-                    float wheelBackwards = NativeFunction.CallByName<float>("GET_DISABLED_CONTROL_NORMAL", 0, (int)GameControl.WeaponWheelNext) * 1.81125f;
+                    float wheelForwards = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.WeaponWheelPrev) * 1.81125f;
+                    float wheelBackwards = NativeFunction.Natives.GET_DISABLED_CONTROL_NORMAL<float>(0, (int)GameControl.WeaponWheelNext) * 1.81125f;
 
                     if (WildernessCallouts.Common.IsUsingController())
                     {
@@ -85,26 +85,26 @@
 
                     if (Controls.ToggleBinocularsHeliCamNightVision.IsJustPressed() && !WildernessCallouts.Common.IsNightVisionActive() && !WildernessCallouts.Common.IsThermalVisionActive())
                     {
-                        NativeFunction.CallByName<uint>("PLAY_SOUND_FRONTEND", -1, "THERMAL_VISION_GOGGLES_ON_MASTER", 0, 1);
+                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, "THERMAL_VISION_GOGGLES_ON_MASTER", 0, 1);
                         WildernessCallouts.Common.SetNightVision(true);
                         GameFiber.Sleep(25);
                     }
                     else if (Controls.ToggleBinocularsHeliCamNightVision.IsJustPressed() && WildernessCallouts.Common.IsNightVisionActive())
                     {
-                        NativeFunction.CallByName<uint>("PLAY_SOUND_FRONTEND", -1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
+                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
                         WildernessCallouts.Common.SetNightVision(false);
                         GameFiber.Sleep(25);
                     }
 
                     if (Controls.ToggleBinocularsHeliCamThermalVision.IsJustPressed() && !WildernessCallouts.Common.IsThermalVisionActive() && !WildernessCallouts.Common.IsNightVisionActive())
                     {
-                        NativeFunction.CallByName<uint>("PLAY_SOUND_FRONTEND", -1, "THERMAL_VISION_GOGGLES_ON_MASTER", 0, 1);
+                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, "THERMAL_VISION_GOGGLES_ON_MASTER", 0, 1);
                         WildernessCallouts.Common.SetThermalVision(true);
                         GameFiber.Sleep(25);
                     }
                     else if (Controls.ToggleBinocularsHeliCamThermalVision.IsJustPressed() && WildernessCallouts.Common.IsThermalVisionActive())
                     {
-                        NativeFunction.CallByName<uint>("PLAY_SOUND_FRONTEND", -1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
+                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
                         WildernessCallouts.Common.SetThermalVision(false);
                         GameFiber.Sleep(25);
                     }
@@ -121,12 +121,12 @@
 
                 if (WildernessCallouts.Common.IsNightVisionActive())
                 {
-                    NativeFunction.CallByName<uint>("PLAY_SOUND_FRONTEND", -1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
+                    NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
                     WildernessCallouts.Common.SetNightVision(false);
                 }
                 if (WildernessCallouts.Common.IsThermalVisionActive())
                 {
-                    NativeFunction.CallByName<uint>("PLAY_SOUND_FRONTEND", -1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
+                    NativeFunction.Natives.PLAY_SOUND_FRONTEND(1, "THERMAL_VISION_GOGGLES_OFF_MASTER", 0, 1);
                     WildernessCallouts.Common.SetThermalVision(false);
                 }
 

@@ -1,4 +1,7 @@
-﻿namespace WildernessCallouts.AmbientEvents
+﻿using System;
+using System.Threading;
+
+namespace WildernessCallouts.AmbientEvents
 {
     using Rage;
     using Rage.Native;
@@ -78,7 +81,7 @@
                     while (this.Hunter.Exists() && this.Hunter.IsAlive && this.Animal.Exists() && this.Animal.IsAlive)
                         GameFiber.Yield();
 
-                    if (this.Hunter.Exists() && this.Animal.Exists()) NativeFunction.CallByName<uint>("TASK_SHOOT_AT_ENTITY", this.Hunter, this.Animal, 6000, (uint)Rage.FiringPattern.BurstFire);
+                    if (this.Hunter.Exists() && this.Animal.Exists()) NativeFunction.Natives.TASK_SHOOT_AT_ENTITY(this.Hunter, this.Animal, 6000, (uint)Rage.FiringPattern.BurstFire);
 
                     GameFiber.Sleep(5000);
 
@@ -100,8 +103,16 @@
 
         public override void Process()
         {
-            if (!this.Hunter.Exists() || this.Hunter.IsDead || this.Hunter.Position.DistanceTo(Game.LocalPlayer.Character.Position) > 400.0f) this.CleanUp(); 
-            base.Process();
+            try
+            {
+                if (!this.Hunter.Exists() || this.Hunter.IsDead || this.Hunter.Position.DistanceTo(Game.LocalPlayer.Character.Position) > 400.0f) this.CleanUp();
+                base.Process();
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                Logger.LogExceptionDebug(GetType().Name, e);
+            }
         }
 
         public override void CleanUp()

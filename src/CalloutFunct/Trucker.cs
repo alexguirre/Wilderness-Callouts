@@ -77,7 +77,7 @@ namespace WildernessCallouts.Peds
 
                 GameFiber.Wait(200);
 
-                NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", this, veh, -1, 5.0f, 1.0f, 0, 0);
+                NativeFunction.Natives.TASK_GO_TO_ENTITY(this, veh, -1, 5.0f, 1.0f, 0, 0);
                 while (Vector3.Distance(this.Position, veh.Position) > 6.0f)
                     GameFiber.Yield();
 
@@ -87,7 +87,7 @@ namespace WildernessCallouts.Peds
                     this.WarpIntoVehicle(veh, -1);
                 }
 
-                NativeFunction.CallByName<uint>("TASK_VEHICLE_DRIVE_WANDER", this, veh, 15.0f, 262199);      // The ped drive away
+                NativeFunction.Natives.TASK_VEHICLE_DRIVE_WANDER(this, veh, 15.0f, 262199);      // The ped drive away
 
                 GameFiber.Wait(2000);
 

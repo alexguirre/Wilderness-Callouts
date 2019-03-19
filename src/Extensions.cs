@@ -45,11 +45,14 @@
         /// <returns>a position in a sidewalk</returns>
         public static Vector3 GetSafeCoordinatesForPed(this Vector3 position)
         {
-            unsafe
+            Vector3 vector3 = Vector3.Zero;
+            if (NativeFunction.Natives.GET_SAFE_COORD_FOR_PED<bool>(position.X, position.Y, position.Z, true, out vector3.X, out vector3.Y, out vector3.Z, 0))
             {
-                Vector3 vector3;
-                if (NativeFunction.CallByName<bool>("GET_SAFE_COORD_FOR_PED", position.X, position.Y, position.Z, true, &vector3.X, &vector3.Y, &vector3.Z, 0)) return vector3;
-                else return Vector3.Zero;
+                return vector3;
+            }
+            else
+            {
+                return Vector3.Zero;
             }
         }
 
@@ -61,12 +64,11 @@
         /// <returns>the ground Z float from a vector3</returns>
         public static float GetGroundZ(this Vector3 v3)
         {
-            unsafe
-            {
-                float z;
-                NativeFunction.CallByName<uint>("GET_GROUND_Z_FOR_3D_COORD", v3.X, v3.Y, 1250.0f, &z);
-                return z;
-            }
+
+            float z;
+            NativeFunction.Natives.GET_GROUND_Z_FOR_3D_COORD(v3.X, v3.Y, 1250.0f, out z);
+            return z;
+
         }
 
 
@@ -77,15 +79,12 @@
         /// <returns>the heading of the closest vehicle node</returns>
         public static float GetClosestVehicleNodeHeading(this Vector3 v3)
         {
-            unsafe
-            {
-                float outHeading;
-                Vector3 outPosition;
+            float outHeading;
+            Vector3 outPosition;
 
-                NativeFunction.CallByName<uint>("GET_CLOSEST_VEHICLE_NODE_WITH_HEADING", v3.X, v3.Y, v3.Z, &outPosition, &outHeading, 12, 0x40400000, 0);
+            NativeFunction.Natives.GET_CLOSEST_VEHICLE_NODE_WITH_HEADING(v3.X, v3.Y, v3.Z, out outPosition, out outHeading, 12, 0x40400000, 0);
 
-                return outHeading;
-            }
+            return outHeading;
         }
 
 
@@ -148,7 +147,7 @@
         /// <returns>a value indicating if this Rage.Entity instance is playing the chosen animation</returns>
         public static bool IsPlayingAnimation(this Entity entity, AnimationDictionary animationDictionary, string animationName)
         {
-            return NativeFunction.CallByName<bool>("IS_ENTITY_PLAYING_ANIM", entity, (string)animationDictionary, animationName, 3);
+            return NativeFunction.Natives.IS_ENTITY_PLAYING_ANIM<bool>(entity, (string)animationDictionary, animationName, 3);
         }
 
         /// <summary>
@@ -201,7 +200,7 @@
         /// <param name="rotation">Entity rotation</param>
         public static void AttachToEntity(this Entity entity, Entity entityToAttach, int boneIndex, Vector3 offset, Rotator rotation)
         {
-            NativeFunction.CallByName<uint>("ATTACH_ENTITY_TO_ENTITY", entity, entityToAttach, boneIndex, offset.X, offset.Y, offset.Z, rotation.Pitch, rotation.Roll, rotation.Yaw, false, true, false, true, 2, true);
+            NativeFunction.Natives.ATTACH_ENTITY_TO_ENTITY(entity, entityToAttach, boneIndex, offset.X, offset.Y, offset.Z, rotation.Pitch, rotation.Roll, rotation.Yaw, false, true, false, true, 2, true);
         }
 
 
@@ -213,7 +212,7 @@
         /// <returns>the bone index</returns>
         public static int GetEntityBoneIndex(this Entity e, string boneName)
         {
-            return NativeFunction.CallByHash<int>(0xfb71170b7e76acba, e, boneName);
+            return NativeFunction.Natives.xfb71170b7e76acba<int>(e, boneName);
         }
 
         /// <summary>
@@ -231,7 +230,7 @@
 
             if (ped.IsPlayingAnimation("mp_suicide", "pistol"))
             {
-                NativeFunction.CallByName<uint>("SET_PED_SHOOTS_AT_COORD", ped, 0.0f, 0.0f, 0.0f, 0);
+                NativeFunction.Natives.SET_PED_SHOOTS_AT_COORD(ped, 0.0f, 0.0f, 0.0f, 0);
 
                 WildernessCallouts.Common.StartParticleFxNonLoopedOnEntity("scr_solomon3", "scr_trev4_747_blood_impact", (Entity)ped, new Vector3(0.0f, 0.0f, 0.6f), new Rotator(90.0f, 0.0f, 0.0f), 0.25f);
 
@@ -267,13 +266,13 @@
         /// <param name="fleeTime">Time to flee</param>
         public static Task Flee(this Ped ped, Ped fleeTarget, float distance, int fleeTime)
         {
-            NativeFunction.CallByName<uint>("TASK_SMART_FLEE_PED", ped, fleeTarget, distance, fleeTime, true, true);
+            NativeFunction.Natives.TASK_SMART_FLEE_PED(ped, fleeTarget, distance, fleeTime, true, true);
             return Task.GetTask(ped, "TASK_SMART_FLEE_PED");
         }
 
         public static Task ReactAndFlee(this Ped ped, Ped fleeTarget)
         {
-            NativeFunction.CallByName<uint>("TASK_REACT_AND_FLEE_PED", ped, fleeTarget);
+            NativeFunction.Natives.TASK_REACT_AND_FLEE_PED(ped, fleeTarget);
             return Task.GetTask(ped, "TASK_REACT_AND_FLEE_PED");
         }
 
@@ -284,7 +283,7 @@
         /// <param name="targetPed">Ped to attack</param>
         public static Task AttackPed(this Ped ped, Ped targetPed)
         {
-            NativeFunction.CallByName<uint>("TASK_COMBAT_PED", ped, targetPed, 0, 1);
+            NativeFunction.Natives.TASK_COMBAT_PED(ped, targetPed, 0, 1);
             return Task.GetTask(ped, "TASK_COMBAT_PED");
         }
 
@@ -306,7 +305,7 @@
         /// </param>
         public static Task DriveWander(this Ped ped, Vehicle vehicle, float speed, int drivingStyle)
         {
-            NativeFunction.CallByName<uint>("TASK_VEHICLE_DRIVE_WANDER", ped, vehicle, speed, drivingStyle);
+            NativeFunction.Natives.TASK_VEHICLE_DRIVE_WANDER(ped, vehicle, speed, drivingStyle);
             return Task.GetTask(ped, "TASK_VEHICLE_DRIVE_WANDER");
         }
 
@@ -319,7 +318,7 @@
         /// <param name="duration">Duration in ms, use -1 to look forever</param>
         public static Task LookAtEntity(this Ped ped, Entity lookAt, int duration)
         {
-            NativeFunction.CallByName<uint>("TASK_LOOK_AT_ENTITY", ped, lookAt, duration, 2048, 3);
+            NativeFunction.Natives.TASK_LOOK_AT_ENTITY(ped, lookAt, duration, 2048, 3);
             return Task.GetTask(ped, "TASK_LOOK_AT_ENTITY");
         }
 
@@ -341,7 +340,7 @@
         ///  16 = teleport directly into vehicle</param>
         public static Task EnterVehicle(this Ped ped, Vehicle vehicle, int timeout, EVehicleSeats seat, float speed, int type)
         {
-            NativeFunction.CallByName<uint>("TASK_ENTER_VEHICLE", ped, vehicle, timeout, (int)seat, speed, type, 0);
+            NativeFunction.Natives.TASK_ENTER_VEHICLE(ped, vehicle, timeout, (int)seat, speed, type, 0);
             return Task.GetTask(ped, "TASK_ENTER_VEHICLE");
         }
 
@@ -379,7 +378,7 @@
         {
             AnimationSet strafeSet = new AnimationSet(animationSet);
             strafeSet.LoadAndWait();
-            NativeFunction.CallByName<uint>("SET_PED_STRAFE_CLIPSET", ped, strafeSet.Name);
+            NativeFunction.Natives.SET_PED_STRAFE_CLIPSET(ped, strafeSet.Name);
         }
 
         /// <summary>
@@ -397,45 +396,37 @@
 
         public static EPaint GetPrimaryColor(this Vehicle veh)
         {
-            unsafe
-            {
-                int colorPrimaryInt;
-                int colorSecondaryInt;
 
-                ulong GetVehicleColorsHash = 0xa19435f193e081ac;
-                NativeFunction.CallByHash<uint>(GetVehicleColorsHash, veh, &colorPrimaryInt, &colorSecondaryInt);
+            int colorPrimaryInt;
+            int colorSecondaryInt;
 
-                return (EPaint)colorPrimaryInt;
-            }
+            NativeFunction.Natives.xa19435f193e081ac(veh, out colorPrimaryInt, out colorSecondaryInt); //GetVehicleColours
+
+            return (EPaint)colorPrimaryInt;
+
         }
 
         public static EPaint GetSecondaryColor(this Vehicle veh)
         {
-            unsafe
-            {
-                int colorPrimaryInt;
-                int colorSecondaryInt;
 
-                ulong GetVehicleColorsHash = 0xa19435f193e081ac;
-                NativeFunction.CallByHash<uint>(GetVehicleColorsHash, veh, &colorPrimaryInt, &colorSecondaryInt);
+            int colorPrimaryInt;
+            int colorSecondaryInt;
 
-                return (EPaint)colorSecondaryInt;
-            }
+            NativeFunction.Natives.xa19435f193e081ac(veh, out colorPrimaryInt, out colorSecondaryInt); //GetVehicleColours
+
+            return (EPaint)colorSecondaryInt;
         }
 
         public static void GetColors(this Vehicle veh, out EPaint primaryColor, out EPaint secondaryColor)
         {
-            unsafe
-            {
-                int colorPrimaryInt;
-                int colorSecondaryInt;
+            int colorPrimaryInt;
+            int colorSecondaryInt;
 
-                ulong GetVehicleColorsHash = 0xa19435f193e081ac;
-                NativeFunction.CallByHash<uint>(GetVehicleColorsHash, veh, &colorPrimaryInt, &colorSecondaryInt);
 
-                primaryColor = (EPaint)colorPrimaryInt;
-                secondaryColor = (EPaint)colorSecondaryInt;
-            }
+            NativeFunction.Natives.xa19435f193e081ac(veh, out colorPrimaryInt, out colorSecondaryInt); //GetVehicleColours
+
+            primaryColor = (EPaint)colorPrimaryInt;
+            secondaryColor = (EPaint)colorSecondaryInt;
         }
 
 
@@ -447,7 +438,7 @@
         /// <param name="secondaryColor">The secondary color</param>
         public static void SetColors(this Vehicle v, EPaint primaryColor, EPaint secondaryColor)
         {
-            NativeFunction.CallByName<uint>("SET_VEHICLE_COLOURS", v, (int)primaryColor, (int)secondaryColor);
+            NativeFunction.Natives.SET_VEHICLE_COLOURS(v, (int)primaryColor, (int)secondaryColor);
         }
 
         public static string ToFriendlyName(this EPaint color)
@@ -462,7 +453,7 @@
         /// <param name="liveryIndex">The livery to set</param>
         public static void SetLivery(this Vehicle v, int liveryIndex)
         {
-            NativeFunction.CallByName<uint>("SET_VEHICLE_LIVERY", v, liveryIndex);
+            NativeFunction.Natives.SET_VEHICLE_LIVERY(v, liveryIndex);
         }
 
         /// <summary>
@@ -540,11 +531,9 @@
 
         public static void SetName(this Blip blip, string text)
         {
-            const ulong AddTextComponentStringHash = 0x6c188be134e074aa;
-
-            NativeFunction.CallByName<uint>("BEGIN_TEXT_COMMAND_SET_BLIP_NAME", "STRING");
-            NativeFunction.CallByHash<uint>(AddTextComponentStringHash, text);
-            NativeFunction.CallByName<uint>("END_TEXT_COMMAND_SET_BLIP_NAME", blip);
+            NativeFunction.Natives.BEGIN_TEXT_COMMAND_SET_BLIP_NAME("STRING");
+            NativeFunction.Natives.x6c188be134e074aa(text); //AddTextComponentString
+            NativeFunction.Natives.END_TEXT_COMMAND_SET_BLIP_NAME(blip);
         }
 
         public static void Shuffle<T>(this IList<T> list)
@@ -616,7 +605,7 @@
             vehicle.Mods.InstallModKit();
 
             for (int i = 0; i <= 100; i++)
-                NativeFunction.CallByName<uint>("SET_VEHICLE_MOD", vehicle, i, Globals.Random.Next(NativeFunction.CallByName<int>("GET_NUM_VEHICLE_MODS", vehicle, i)), false);
+                NativeFunction.Natives.SET_VEHICLE_MOD( vehicle, i, Globals.Random.Next(NativeFunction.Natives.GET_NUM_VEHICLE_MODS<int>(vehicle, i)), false);
 
             vehicle.Mods.HasTurbo = Globals.Random.Next(2) == 1;
             vehicle.Mods.HasXenonHeadlights = Globals.Random.Next(2) == 1;
@@ -639,8 +628,8 @@
 
             vehicle.SetNeonLightsColor(Color.FromArgb(Globals.Random.Next(1, 256), Globals.Random.Next(1, 256), Globals.Random.Next(1, 256)));
 
-            NativeFunction.CallByHash<uint>(0xf40dd601a65f7f19, vehicle, (int)default(EPaint).GetRandomElement<EPaint>());//_SET_VEHICLE_INTERIOR_COLOUR
-            NativeFunction.CallByHash<uint>(0x6089cdf6a57f326c, vehicle, (int)default(EPaint).GetRandomElement<EPaint>());//_SET_VEHICLE_DASHBOARD_COLOUR
+            NativeFunction.Natives.xf40dd601a65f7f19(vehicle, (int)default(EPaint).GetRandomElement<EPaint>());//_SET_VEHICLE_INTERIOR_COLOUR
+            NativeFunction.Natives.x6089cdf6a57f326c(vehicle, (int)default(EPaint).GetRandomElement<EPaint>());//_SET_VEHICLE_DASHBOARD_COLOUR
         }
 
         /// <summary>
@@ -651,9 +640,7 @@
         /// <param name="toggle">Toggle the neon</param>
         public static void ToggleNeonLight(this Vehicle vehicle, ENeonLights neonLight, bool toggle)
         {
-            ulong SetVehicleNeonLightEnabledHash = 0x2aa720e4287bf269;
-
-            NativeFunction.CallByHash<uint>(SetVehicleNeonLightEnabledHash, vehicle, (int)neonLight, toggle);
+            NativeFunction.Natives.x2aa720e4287bf269(vehicle, (int)neonLight, toggle); //SetVehicleNeonLightEnabled
         }
 
 
@@ -664,9 +651,7 @@
         /// <param name="color">Color to set</param>
         public static void SetNeonLightsColor(this Vehicle vehicle, Color color)
         {
-            ulong SetVehicleNeonLightsColoursHash = 0x8e0a582209a62695;
-
-            NativeFunction.CallByHash<uint>(SetVehicleNeonLightsColoursHash, vehicle, (int)color.R, (int)color.G, (int)color.B);
+            NativeFunction.Natives.x8e0a582209a62695(vehicle, (int)color.R, (int)color.G, (int)color.B);// SetVehicleNeonLightsColours
         }
 
 
@@ -678,9 +663,9 @@
         /// <returns>true if the neon light is enabled</returns>
         public static bool IsNeonLightEnable(this Vehicle vehicle, ENeonLights neonLight)
         {
-            ulong IsVehicleNeonLightEnabledHash = 0x8c4b92553e4766a5;
-            if (NativeFunction.CallByHash<bool>(IsVehicleNeonLightEnabledHash, vehicle, (int)neonLight)) return true;
-            else if (!NativeFunction.CallByHash<bool>(IsVehicleNeonLightEnabledHash, vehicle, (int)neonLight)) return false;
+            //IsVehicleNeonLightEnabled
+            if (NativeFunction.Natives.x8c4b92553e4766a5<bool>(vehicle, (int)neonLight)) return true;
+            else if (!NativeFunction.Natives.x8c4b92553e4766a5<bool>(vehicle, (int)neonLight)) return false;
             else return false;
         }
 
@@ -692,33 +677,29 @@
         /// <returns>the neon light color</returns>
         public static Color GetNeonLightsColor(this Vehicle vehicle)
         {
-            unsafe
-            {
-                Color color;
-                int red;
-                int green;
-                int blue;
-                ulong GetVehicleNeonLightsColourHash = 0x7619eee8c886757f;
-                NativeFunction.CallByHash<uint>(GetVehicleNeonLightsColourHash, vehicle, &red, &green, &blue);
+            Color color;
+            int red;
+            int green;
+            int blue;
+            NativeFunction.Natives.x7619eee8c886757f(vehicle, out red, out green, out blue); //GetVehicleNeonLightsColour
 
-                return color = Color.FromArgb(red, green, blue);
-            }
+            return color = Color.FromArgb(red, green, blue);
         }
 
         public static void ToggleMod(this Vehicle vehicle, VehicleModType mod, bool toggle)
         {
-            NativeFunction.CallByName<uint>("TOGGLE_VEHICLE_MOD", vehicle, (int)mod, toggle);
+            NativeFunction.Natives.TOGGLE_VEHICLE_MOD(vehicle, (int)mod, toggle);
         }
 
         public static void SetExtraColors(this Vehicle vehicle, EPaint pearlescentColor, EPaint wheelColor)
         {
-            NativeFunction.CallByName<uint>("SET_VEHICLE_EXTRA_COLOURS", vehicle, (int)pearlescentColor, (int)wheelColor);
+            NativeFunction.Natives.SET_VEHICLE_EXTRA_COLOURS(vehicle, (int)pearlescentColor, (int)wheelColor);
             //SET_VEHICLE_EXTRA_COLOURS(Vehicle vehicle, int pearlescentColor, int wheelColor)
         }
         public static void GetExtraColors(this Vehicle vehicle, out EPaint pearlescentColor, out EPaint wheelColor)
         {
             int pearl, wheel;
-            unsafe { NativeFunction.CallByName<uint>("SET_VEHICLE_EXTRA_COLOURS", vehicle, &pearl, &wheel); }
+            NativeFunction.Natives.SET_VEHICLE_EXTRA_COLOURS(vehicle, out pearl, out wheel);
             pearlescentColor = (EPaint)pearl;
             wheelColor = (EPaint)wheel;
         }
@@ -726,26 +707,23 @@
 
         public static void SetWindowsTint(this Vehicle vehicle, EWindowTint tint)
         {
-            NativeFunction.CallByName<uint>("SET_VEHICLE_WINDOW_TINT", vehicle, (int)tint);
+            NativeFunction.Natives.SET_VEHICLE_WINDOW_TINT(vehicle, (int)tint);
         }
 
         public static EWindowTint GetWindowsTint(this Vehicle vehicle)
         {
-            return (EWindowTint)NativeFunction.CallByName<int>("GET_VEHICLE_WINDOW_TINT", vehicle);
+            return (EWindowTint)NativeFunction.Natives.GET_VEHICLE_WINDOW_TINT<int>(vehicle);
         }
 
         public static void SetTyreSmokeColor(this Vehicle vehicle, Color color)
         {
-            NativeFunction.CallByName<uint>("SET_VEHICLE_TYRE_SMOKE_COLOR", vehicle, (int)color.R, (int)color.G, (int)color.B);
+            NativeFunction.Natives.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, (int)color.R, (int)color.G, (int)color.B);
         }
         public static Color GetTyreSmokeColor(this Vehicle vehicle)
         {
-            unsafe
-            {
-                int r, g, b;
-                NativeFunction.CallByName<uint>("GET_VEHICLE_TYRE_SMOKE_COLOR", vehicle, &r, &g, &b);
-                return Color.FromArgb(r, g, b);
-            }
+            int r, g, b;
+            NativeFunction.Natives.GET_VEHICLE_TYRE_SMOKE_COLOUR(vehicle, out r, out g, out b);
+            return Color.FromArgb(r, g, b);
         }
 
 
@@ -769,12 +747,12 @@
 
         public static void FollowPointRoute(this Ped ped, Vector3[] points, float speed)
         {
-            NativeFunction.CallByName<uint>("TASK_FLUSH_ROUTE");
+            NativeFunction.Natives.TASK_FLUSH_ROUTE();
             foreach (Vector3 v3 in points)
             {
-                NativeFunction.CallByName<uint>("TASK_EXTEND_ROUTE", v3.X, v3.Y, v3.Z);
+                NativeFunction.Natives.TASK_EXTEND_ROUTE(v3.X, v3.Y, v3.Z);
             }
-            NativeFunction.CallByName<uint>("TASK_FOLLOW_POINT_ROUTE", ped, speed, 0);
+            NativeFunction.Natives.TASK_FOLLOW_POINT_ROUTE(ped, speed, 0);
         }
 
         public static WeaponDescriptor GiveNewWeapon(this PedInventory inventory, EWeaponHash weaponHash, short ammoCount, bool equipNow)
@@ -784,22 +762,22 @@
 
         public static void WanderInArea(this Ped ped, Vector3 position, float radius, float minimalLenght, float timeBetweenWalks)
         {
-            NativeFunction.CallByName<uint>("TASK_WANDER_IN_AREA", ped, position.X, position.Y, position.Z, radius, minimalLenght, timeBetweenWalks);
+            NativeFunction.Natives.TASK_WANDER_IN_AREA(ped, position.X, position.Y, position.Z, radius, minimalLenght, timeBetweenWalks);
         }
 
         public static bool IsPed(this Entity entity)
         {
-            return NativeFunction.CallByName<bool>("IS_ENTITY_A_PED", entity);
+            return NativeFunction.Natives.IS_ENTITY_A_PED<bool>(entity);
         }
 
         public static bool IsVehicle(this Entity entity)
         {
-            return NativeFunction.CallByName<bool>("IS_ENTITY_A_VEHICLE", entity);
+            return NativeFunction.Natives.IS_ENTITY_A_VEHICLE<bool>(entity);
         }
 
         public static bool IsObject(this Entity entity)
         {
-            return NativeFunction.CallByName<bool>("IS_ENTITY_AN_OBJECT", entity);
+            return NativeFunction.Natives.IS_ENTITY_AN_OBJECT<bool>(entity);
         }
 
         public static List<EVehicleSeats> GetFreeSeats(this Vehicle vehicle)
@@ -817,7 +795,7 @@
 
         public static void Escort(this Ped ped, Vehicle pedVehicle, Vehicle targetVehicle, float speed, int drivingStyle, float minDistance, float ignoreRoadsDistance)
         {
-            NativeFunction.CallByName<uint>("TASK_VEHICLE_ESCORT", ped, pedVehicle, targetVehicle, -1, speed, drivingStyle, minDistance, -1, ignoreRoadsDistance);
+            NativeFunction.Natives.TASK_VEHICLE_ESCORT(ped, pedVehicle, targetVehicle, -1, speed, drivingStyle, minDistance, -1, ignoreRoadsDistance);
         }
 
 
@@ -871,7 +849,7 @@
         public static void Interpolate(this Camera from, Camera to, int time, bool easeLocation, bool easeRotation, bool waitForCompletion)
         {
             //SET_CAM_ACTIVE_WITH_INTERP(Cam camTo, Cam camFrom, int duration, BOOL easeLocation, BOOL easeRotation)
-            NativeFunction.CallByName<uint>("SET_CAM_ACTIVE_WITH_INTERP", to, from, time, easeLocation, easeRotation);
+            NativeFunction.Natives.SET_CAM_ACTIVE_WITH_INTERP(to, from, time, easeLocation, easeRotation);
             if (waitForCompletion)
                 GameFiber.Sleep(time);
         }

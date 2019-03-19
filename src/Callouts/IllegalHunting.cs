@@ -133,7 +133,7 @@
             animalBlip.EnableRoute(Color.Green);
             animalBlip.Scale = 1.3f;
 
-            if (rndAimAtAnimal == 1) NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", hunter, animal, -1, true);
+            if (rndAimAtAnimal == 1) NativeFunction.Natives.TASK_AIM_GUN_AT_ENTITY( hunter, animal, -1, true);
             state = EIllegalHuntingState.EnRoute;
 
             return base.OnCalloutAccepted();
@@ -160,7 +160,7 @@
             if (state == EIllegalHuntingState.EnRoute && Vector3.Distance(Game.LocalPlayer.Character.Position, hunter.Position) < 12.0f)
             {
                 state = EIllegalHuntingState.OnScene;
-                if (rndAimAtAnimal == 1) NativeFunction.CallByName<uint>("TASK_SHOOT_AT_ENTITY", hunter, animal, 1000, (uint)Rage.FiringPattern.SingleShot);
+                if (rndAimAtAnimal == 1) NativeFunction.Natives.TASK_SHOOT_AT_ENTITY(hunter, animal, 1000, (uint)Rage.FiringPattern.SingleShot);
                 OnScene();
             }
 
@@ -184,7 +184,7 @@
             {
                 GameFiber.StartNew(delegate 
                 {
-                NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", hunter, hunterVeh, -1, 5.0f, 1.0f, 0, 0);
+                NativeFunction.Natives.TASK_GO_TO_ENTITY(hunter, hunterVeh, -1, 5.0f, 1.0f, 0, 0);
                 while (Vector3.Distance(hunter.Position, hunterVeh.Position) > 6.0f)
                     GameFiber.Yield();
 
@@ -294,8 +294,9 @@
                 Game.SetRelationshipBetweenRelationshipGroups("HUNTER", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("HUNTER", "PLAYER", Relationship.Hate);
 
-                this.pursuit = LSPD_First_Response.Mod.API.Functions.CreatePursuit();
-                LSPD_First_Response.Mod.API.Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                this.pursuit = Functions.CreatePursuit();
+                Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
 
                 isPursuitRunning = true;
 
@@ -370,8 +371,9 @@
                     if (hunter.IsInAnyVehicle(false) && hunter.IsAlive) hunter.Tasks.CruiseWithVehicle(hunterVeh, 200.0f, driveFlags);
 
 
-                    this.pursuit = LSPD_First_Response.Mod.API.Functions.CreatePursuit();
-                    LSPD_First_Response.Mod.API.Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                    this.pursuit = Functions.CreatePursuit();
+                    Functions.AddPedToPursuit(this.pursuit, this.hunter);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
 
                     isPursuitRunning = true;
                 }

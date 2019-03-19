@@ -175,12 +175,12 @@
 
         public static void StartInPlace(Ped ped, string scenarioName, bool playEnterAnim, int unkDelay = 0)
         {
-            NativeFunction.CallByName<uint>("TASK_START_SCENARIO_IN_PLACE", ped, scenarioName, unkDelay, playEnterAnim);
+            NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(ped, scenarioName, unkDelay, playEnterAnim);
         }
 
         public static void StartAtPosition(Ped ped, string scenarioName, Vector3 position, float heading)
         {
-            NativeFunction.CallByName<uint>("TASK_START_SCENARIO_AT_POSITION", ped, scenarioName, position.X, position.Y, position.Z, heading, 0, 0, 1);
+            NativeFunction.Natives.TASK_START_SCENARIO_AT_POSITION( ped, scenarioName, position.X, position.Y, position.Z, heading, 0, 0, 1);
         }
     }
 }

@@ -32,22 +32,22 @@
         {
             public const string SECTION_NAME = "Callouts";
 
-            public static readonly bool IsIllegalHuntingEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Possible Illegal Hunting", true);
-            public static readonly bool IsRocksBlockEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Rocks Blocking the Road", true);
-            public static readonly bool IsAircraftCrashEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Aircraft Crash", true);
-            public static readonly bool IsRecklessDriverEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Reckless Driver", true);
-            public static readonly bool IsWantedFelonEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Wanted Felon In Vehicle", true);
-            public static readonly bool IsSuicideAttemptEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Suicide Attempt", true);
-            public static readonly bool IsMissingPersonEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Missing Person", true);
-            public static readonly bool IsAnimalAttackEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Animal Attack", true);
-            public static readonly bool IsPublicDisturbanceEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Public Disturbance", true);
-            public static readonly bool IsHostageSituationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Hostage Situation", true);
-            public static readonly bool IsArsonEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Arson", true);
-            public static readonly bool IsOfficerNeedsTransportEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Officer Needs Transport", true);
-            public static readonly bool IsAttackedPoliceStationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Attacked Police Station", true);
-            public static readonly bool IsDemonstrationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Demonstration", true);
+            public static readonly bool IsIllegalHuntingEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Possible Illegal Hunting", true);
+            public static readonly bool IsRocksBlockEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Rocks Blocking the Road", true);
+            public static readonly bool IsAircraftCrashEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Aircraft Crash", true);
+            public static readonly bool IsRecklessDriverEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Reckless Driver", true);
+            public static readonly bool IsWantedFelonEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Wanted Felon In Vehicle", true);
+            public static readonly bool IsSuicideAttemptEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Suicide Attempt", true);
+            public static readonly bool IsMissingPersonEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Missing Person", true);
+            public static readonly bool IsAnimalAttackEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Animal Attack", true);
+            public static readonly bool IsPublicDisturbanceEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Public Disturbance", true);
+            public static readonly bool IsHostageSituationEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Hostage Situation", true);
+            public static readonly bool IsArsonEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Arson", true);
+            public static readonly bool IsOfficerNeedsTransportEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Officer Needs Transport", true);
+            public static readonly bool IsAttackedPoliceStationEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Attacked Police Station", true);
+            public static readonly bool IsDemonstrationEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Demonstration", true);
             //public static readonly bool IsEscortEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Escort", true); 
-            public static readonly bool IsMurderInsvestigationEnable = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Murder Insvestigation", true);
+            public static readonly bool IsMurderInvestigationEnabled = Settings.INIFile.ReadBoolean(SECTION_NAME, "Enable Murder Investigation", true);
         }
 
         public static class AmbientEvents
@@ -104,8 +104,17 @@
             public const string SECTION_NAME = "Air Ambulance";
 
             public static readonly string ParamedicName = Settings.INIFile.ReadString(SECTION_NAME, "Name", "Paramedic");
-            public static readonly Model HeliModel = INIFile.ReadString(SECTION_NAME, "Helicoter Model", "polmav");
-            public static readonly int HeliLiveryIndex = Settings.INIFile.ReadInt32(SECTION_NAME, "Helicoter Livery Index", 0);
+
+
+            public static readonly Model HeliModel = (INIFile.DoesKeyExist(SECTION_NAME, "Helicopter Model")) ?
+                INIFile.ReadString(SECTION_NAME, "Helicopter Model", "polmav")
+                : INIFile.ReadString(SECTION_NAME, "Helicoter Model", "polmav");
+
+
+            public static readonly int HeliLiveryIndex = (INIFile.DoesKeyExist(SECTION_NAME, "Helicopter Livery Index")) ?
+                INIFile.ReadInt32(SECTION_NAME, "Helicopter Livery Index", 0) :
+                INIFile.ReadInt32(SECTION_NAME, "Helicoter Livery Index", 0);
+
             public static readonly Model[] PilotModels = Array.ConvertAll<string, Model>(Settings.INIFile.ReadString(SECTION_NAME, "Pilot Models", "s_m_m_pilot_02").Split(','), x => new Model(x));
             public static readonly Model[] ParamedicModels = Array.ConvertAll<string, Model>(Settings.INIFile.ReadString(SECTION_NAME, "Paramedic Models", "s_m_m_paramedic_01").Split(','), x => new Model(x));
         }

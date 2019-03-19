@@ -226,9 +226,9 @@
                                     {
                                         Vector3 posToThrow = spawnUsed.CiviliansSpawnPoints.GetRandomElement().Position.AroundPosition(2.0f);
                                         ped.Tasks.AchieveHeading(ped.GetHeadingTowards(posToThrow)).WaitForCompletion(1500);
-                                        NativeFunction.CallByName<uint>("TASK_THROW_PROJECTILE", ped, posToThrow.X, posToThrow.Y, posToThrow.Z);
+                                        NativeFunction.Natives.TASK_THROW_PROJECTILE(ped, posToThrow.X, posToThrow.Y, posToThrow.Z);
                                         GameFiber.Sleep(3500);
-                                        NativeFunction.CallByName<uint>("REMOVE_WEAPON_FROM_PED", ped, (uint)EWeaponHash.Smoke_Grenade);
+                                        NativeFunction.Natives.REMOVE_WEAPON_FROM_PED(ped, (uint)EWeaponHash.Smoke_Grenade);
                                     });
                                 }
                                 GameFiber.Sleep(5750);
@@ -254,9 +254,9 @@
                                 {
                                     Ped pedToAttack = spawnUsed.Civilians.GetRandomElement();
                                     ped.Tasks.AchieveHeading(ped.GetHeadingTowards(pedToAttack)).WaitForCompletion(1500);
-                                    NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", ped, pedToAttack, -1, true);
+                                    NativeFunction.Natives.TASK_AIM_GUN_AT_ENTITY(ped, pedToAttack, -1, true);
                                     GameFiber.Sleep(5250);
-                                    NativeFunction.CallByName<uint>("TASK_SHOOT_AT_ENTITY", ped, pedToAttack, 1675, (uint)Rage.FiringPattern.SingleShot);
+                                    NativeFunction.Natives.TASK_SHOOT_AT_ENTITY(ped, pedToAttack, 1675, (uint)Rage.FiringPattern.SingleShot);
                                 });
                                 GameFiber.Sleep(310);
                             }
@@ -576,7 +576,7 @@
             {
                 Rage.Object o = new Rage.Object(barrierModel, sp.Position, sp.Heading);
                 if (!o.Exists()) return false;
-                NativeFunction.CallByName<uint>("SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN", o, true);
+                NativeFunction.Natives.SET_ACTIVATE_OBJECT_PHYSICS_AS_SOON_AS_IT_IS_UNFROZEN(o, true);
                 Barriers.Add(o);
             }
 
@@ -751,32 +751,32 @@
             {
                 ped.RelationshipGroup = SwatsRelationshipGroup;
                 if (Globals.Random.Next(3) <= 1)
-                    NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                    NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
             }
             else if (ped.Model == new Model("s_m_y_cop_01"))
             {
                 if (Globals.Random.Next(3) <= 1)
-                    NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                    NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
 
-                NativeFunction.CallByName<uint>("SET_PED_COMPONENT_VARIATION", ped, 9, 2, 0, 2);
+                NativeFunction.Natives.SET_PED_COMPONENT_VARIATION(ped, 9, 2, 0, 2);
 
             }
             else if (ped.Model == new Model("s_f_y_cop_01"))
             {
                 if (Globals.Random.Next(3) <= 1)
-                    NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                    NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
             }
             else if (ped.Model == new Model("s_m_y_sheriff_01"))
             {
                 if (Globals.Random.Next(3) <= 1)
-                    NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, Globals.Random.Next(2), 0, 2);
+                    NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, Globals.Random.Next(2), 0, 2);
 
-                NativeFunction.CallByName<uint>("SET_PED_COMPONENT_VARIATION", ped, 9, 2, 0, 2);
+                NativeFunction.Natives.SET_PED_COMPONENT_VARIATION(ped, 9, 2, 0, 2);
             }
             else if (ped.Model == new Model("s_f_y_sheriff_01"))
             {
                 if (Globals.Random.Next(3) <= 1)
-                    NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, Globals.Random.Next(2), 0, 2);
+                    NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, Globals.Random.Next(2), 0, 2);
             }
 
             ped.Health += 50;
@@ -820,25 +820,25 @@
             if (ped.Model == new Model("s_m_y_swat_01"))
             {
                 ped.RelationshipGroup = SwatsRelationshipGroup;
-                NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
             }
             else if (ped.Model == new Model("s_m_y_cop_01"))
             {
-                NativeFunction.CallByName<uint>("SET_PED_COMPONENT_VARIATION", ped, 9, 2, 0, 2);
-                NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                NativeFunction.Natives.SET_PED_COMPONENT_VARIATION(ped, 9, 2, 0, 2);
+                NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
             }
             else if (ped.Model == new Model("s_f_y_cop_01"))
             {
-                NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, 0, 0, 2);
+                NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, 0, 0, 2);
             }
             else if (ped.Model == new Model("s_m_y_sheriff_01"))
             {
-                NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, Globals.Random.Next(2), 0, 2);
-                NativeFunction.CallByName<uint>("SET_PED_COMPONENT_VARIATION", ped, 9, 2, 0, 2);
+                NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, Globals.Random.Next(2), 0, 2);
+                NativeFunction.Natives.SET_PED_COMPONENT_VARIATION(ped, 9, 2, 0, 2);
             }
             else if (ped.Model == new Model("s_f_y_sheriff_01"))
             {
-                NativeFunction.CallByName<uint>("SET_PED_PROP_INDEX", ped, 0, Globals.Random.Next(2), 0, 2);
+                NativeFunction.Natives.SET_PED_PROP_INDEX(ped, 0, Globals.Random.Next(2), 0, 2);
             }
 
             ped.Health += 50;

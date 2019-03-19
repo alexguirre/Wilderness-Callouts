@@ -100,10 +100,11 @@
         {
             pursuit = Functions.CreatePursuit();
             Functions.AddPedToPursuit(pursuit, recklessDriver);
+            Functions.SetPursuitIsActiveForPlayer(pursuit, true);
             hasStartedPursuit = true;
             Functions.RequestBackup(spawnPoint.Around(20.0f), EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
             //monsterTruck.DriveForce = 5.0f;
-            NativeFunction.CallByName<uint>("SET_DRIVER_ABILITY", recklessDriver, MathHelper.GetRandomSingle(0.0f, 100.0f));
+            NativeFunction.Natives.SET_DRIVER_ABILITY(recklessDriver, MathHelper.GetRandomSingle(0.0f, 100.0f));
             VehicleDrivingFlags driveFlags = VehicleDrivingFlags.None;
             switch (Globals.Random.Next(3))
             {
