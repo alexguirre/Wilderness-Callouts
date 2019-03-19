@@ -252,19 +252,13 @@ namespace WildernessCallouts
         /// <returns></returns>
         public static Ped GetPedToRescue()
         {
-            foreach (Ped ped in Game.LocalPlayer.Character.GetNearbyPeds(16).ToList()) {
-                Logger.LogDebug($"Evalute {ped}, {ped.Model.Name}, {ped.Handle}, dead:{ped.IsDead}, human:{ped.IsHuman}");
-            }
+            // unfortunately it seems we must use the World.GetAllPeds() here which
+            // has poorer performance -- dead peds do not seem to be returned by GetNearbyPeds.
 
-            foreach (Ped ped in World.Get.ToList().Where(x =>
-                (x.IsDead || x.Health <= 20 || x == MissingPerson.CurrentMissingPed) && x != Game.LocalPlayer.Character &&
-                x.IsHuman && !AirParamedic.RescuedPeds.Contains(x))) {
-                Logger.LogDebug($"Evalute {ped}, {ped.Model.Name}, {ped.Handle}");
-            }
 
-            Ped pedToRescue = Game.LocalPlayer.Character.GetNearbyPeds(16).ToList().Where(x =>
+            Ped pedToRescue = World.GetAllPeds().ToList().Where(x =>
                     (x.IsDead || x.Health <= 20 || x == MissingPerson.CurrentMissingPed) && x != Game.LocalPlayer.Character &&
-                    x.IsHuman && Vector3.Distance(x.Position, Game.LocalPlayer.Character.Position) > 15.0f &&
+                    x.IsHuman && Vector3.Distance(x.Position, Game.LocalPlayer.Character.Position) < 15.0f &&
                     !AirParamedic.RescuedPeds.Contains(x))
                 .OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position))
                 .FirstOrDefault();

@@ -40,6 +40,8 @@ namespace WildernessCallouts
 
             Functions.OnOnDutyStateChanged += Functions_OnOnDutyStateChanged;
             Game.FrameRender += Main.Process;
+
+            Game.AddConsoleCommands();
         }
 
         public void Functions_OnOnDutyStateChanged(bool onDuty)
