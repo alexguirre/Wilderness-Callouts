@@ -23,7 +23,9 @@
 #endif
 
             //public static bool IsVetEnable = Settings.INIFile.ReadBoolean("General", "Is Vet Enable", true);  
-            public static bool IsBinocularEnable = Settings.INIFile.ReadBoolean("General", "Are Binoculars Enable", true);
+            public static bool IsBinocularEnabled = INIFile.DoesKeyExist(SECTION_NAME, "Enable Binoculars") ?
+                INIFile.ReadBoolean(SECTION_NAME, "Enable Binoculars", true) :
+                INIFile.ReadBoolean(SECTION_NAME, "Are Binoculars Enable", true);
             //public static bool IsAirAmbulanceEnable = Settings.INIFile.ReadBoolean("General", "Is Air Ambulance Enable", true);  
         }
 

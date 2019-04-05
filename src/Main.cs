@@ -70,9 +70,8 @@ namespace WildernessCallouts
                     {
                         GameFiber.Yield();
 
-                        if (Controls.ToggleBinoculars.IsJustPressed() &&
-                            !Game.LocalPlayer.Character.IsInAnyVehicle(false) && !Binoculars.IsActive &&
-                            Settings.General.IsBinocularEnable)
+                        if (Settings.General.IsBinocularEnabled && Controls.ToggleBinoculars.IsJustPressed() &&
+                            !Game.LocalPlayer.Character.IsInAnyVehicle(false) && !Binoculars.IsActive)
                         {
                             Binoculars.EnableBinoculars();
                         }
