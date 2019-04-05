@@ -308,7 +308,7 @@
             Persona persona = Functions.GetPersonaForPed(ped);
             ResText nameText = new ResText("NAME:  ~b~" + persona.FullName.ToUpper(), new Point((int)res.Width - 320, (int)res.Height - 550), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText genderText = new ResText("GENDER:  ~b~" + persona.Gender, new Point((int)res.Width - 320, (int)res.Height - 500), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
-            ResText birthdayText = new ResText("BIRTHDAY:  ~b~" + persona.BirthDay.ToShortDateString(), new Point((int)res.Width - 320, (int)res.Height - 450), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
+            ResText birthdayText = new ResText("BIRTHDAY:  ~b~" + persona.Birthday.ToShortDateString(), new Point((int)res.Width - 320, (int)res.Height - 450), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText citationsText = new ResText("CITATIONS:  ~b~" + persona.Citations, new Point((int)res.Width - 320, (int)res.Height - 400), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
             ResText wantedText = new ResText("EXTRA INFO:  ~b~" + (persona.Wanted ? "~r~WANTED" : "NONE"), new Point((int)res.Width - 320, (int)res.Height - 350), 0.3225f, Color.White, RAGENativeUI.Common.EFont.ChaletLondon, ResText.Alignment.Left);
 

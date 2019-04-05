@@ -88,12 +88,12 @@ namespace WildernessCallouts
             if (!_huntingLicensesDict.ContainsKey(persona.FullName))
             {
                 string license = licenseState.GetRandomElement();
-                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "HUNTING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.BirthDay.ToShortDateString() + "~n~~w~Hunting license is " + license);
+                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "HUNTING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.Birthday.ToShortDateString() + "~n~~w~Hunting license is " + license);
                 _huntingLicensesDict.Add(persona.FullName, license);
             }
             else
             {
-                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "HUNTING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.BirthDay.ToShortDateString() + "~n~~w~Hunting license is " + _huntingLicensesDict[persona.FullName]);
+                Game.DisplayNotification("prop_flags", "prop_flag_sanandreas", "San Andreas", "HUNTING LICENSE", "~b~" + persona.FullName + "~n~~w~Birth: " + persona.Birthday.ToShortDateString() + "~n~~w~Hunting license is " + _huntingLicensesDict[persona.FullName]);
             }
         }
         public static Dictionary<string, string> HuntingLicensesDictionary { get { return _huntingLicensesDict; } }
