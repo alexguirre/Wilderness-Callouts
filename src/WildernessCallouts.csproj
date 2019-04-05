@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WildernessCallouts</RootNamespace>
     <AssemblyName>Wilderness Callouts</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="PoliceSmartRadio">
       <HintPath>..\dependencies\PoliceSmartRadio.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RAGENativeUI">
       <HintPath>..\dependencies\RAGENativeUI.dll</HintPath>
